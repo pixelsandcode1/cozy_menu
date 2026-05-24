@@ -65,13 +65,12 @@ export function pickMenu(
   weather: WeatherId,
   excludeIds: string[] = [],
 ): Activity[] {
-  const maxMin = Number(time);
+  const userMin = Number(time);
   const pool = activities.filter((a) => {
     if (excludeIds.includes(a.id)) return false;
-    if (a.maxMinutes < maxMin && a.maxMinutes < 30 && maxMin >= 60) {
-      // allow short activities even for long blocks
-    }
-    if (a.maxMinutes < Math.min(maxMin, 15)) return false;
+    // skip activities that are substantially longer than the user's window
+    if (a.maxMinutes > userMin && a.maxMinutes >= 30 && userMin < 30) return false;
+    if (a.maxMinutes > userMin && userMin <= 15) return false;
     if (!a.moods.includes(mood)) return false;
     if (a.weathers !== "any" && !a.weathers.includes(weather)) return false;
     return true;
@@ -107,8 +106,7 @@ export function pickMenu(
     const relaxed = activities.filter(
       (a) =>
         !usedIds.has(a.id) &&
-        (a.weathers === "any" || a.weathers.includes(weather)) &&
-        a.maxMinutes >= Math.min(maxMin, 15),
+        (a.weathers === "any" || a.weathers.includes(weather)),
     ).sort(() => Math.random() - 0.5);
     while (picked.length < 4 && relaxed.length) {
       picked.push(relaxed.pop()!);
