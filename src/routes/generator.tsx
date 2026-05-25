@@ -369,7 +369,7 @@ function Chip({
   );
 }
 
-function GeneratingInterlude({ mascotId }: { mascotId: MascotId }) {
+function GeneratingInterlude({ mascotId, mood }: { mascotId: MascotId; mood: MoodId | null }) {
   return (
     <div className="flex flex-col items-center text-center mt-6 animate-pop-in" aria-live="polite">
       <div className="relative">
@@ -390,6 +390,9 @@ function GeneratingInterlude({ mascotId }: { mascotId: MascotId }) {
       </div>
       <p className="font-pixel text-xl sm:text-2xl mt-6 max-w-md">
         Today's cozy side missions can include...
+      </p>
+      <p className="text-sm text-foreground/75 mt-2 max-w-md italic">
+        {getMascotLine(mascotId, mood)}
       </p>
     </div>
   );
