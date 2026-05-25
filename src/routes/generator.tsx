@@ -172,7 +172,7 @@ function Generator() {
           />
         )}
 
-        {step === 3 && <GeneratingInterlude mascotId={mascotId} />}
+        {step === 3 && <GeneratingInterlude mascotId={mascotId} mood={mood} />}
 
         {step === 4 && (
           <PixelNotepad
