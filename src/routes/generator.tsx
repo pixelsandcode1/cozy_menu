@@ -173,8 +173,8 @@ function Generator() {
         {step === 3 && <GeneratingInterlude mascotId={mascotId} />}
 
         {step === 4 && (
-          <MenuReveal
-            menuRef={menuRef}
+          <PixelNotepad
+            innerRef={menuRef}
             menu={menu}
             mascotId={mascotId}
             mood={mood!}
