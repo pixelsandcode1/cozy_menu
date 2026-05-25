@@ -165,6 +165,7 @@ function Generator() {
             mood={mood}
             time={time}
             weather={weather}
+            mascotId={mascotId}
             onMood={setMood}
             onTime={setTime}
             onWeather={setWeather}
