@@ -272,11 +272,12 @@ function QuestionStep(props: {
   mood: MoodId | null;
   time: TimeId | null;
   weather: WeatherId | null;
+  mascotId: MascotId;
   onMood: (m: MoodId) => void;
   onTime: (t: TimeId) => void;
   onWeather: (w: WeatherId) => void;
 }) {
-  const { step, mood, time, weather, onMood, onTime, onWeather } = props;
+  const { step, mood, time, weather, mascotId, onMood, onTime, onWeather } = props;
 
   const headings = [
     "How are you feeling today?",
@@ -284,12 +285,17 @@ function QuestionStep(props: {
     "What's it like outside?",
   ];
 
+  const subline =
+    step === 0 && mood
+      ? getMascotLine(mascotId, mood)
+      : "no wrong answer ✿";
+
   return (
     <div className="w-full text-center animate-pop-in" key={step}>
       <h1 className="font-pixel text-2xl sm:text-3xl mb-2 text-foreground">
         {headings[step]}
       </h1>
-      <p className="text-sm text-foreground/65 mb-7">no wrong answer ✿</p>
+      <p className="text-sm text-foreground/75 mb-7" aria-live="polite">{subline}</p>
 
       <div
         className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto"
