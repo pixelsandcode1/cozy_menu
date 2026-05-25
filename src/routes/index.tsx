@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { mascots, type MascotId } from "@/data/mascots";
 import { Mascot } from "@/components/Mascot";
+import { CozyRoom } from "@/components/CozyRoom";
 
 export const Route = createFileRoute("/")({
   head: () => ({
