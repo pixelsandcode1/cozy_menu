@@ -1,8 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { Mascot } from "@/components/Mascot";
-import { getMascot, type MascotId } from "@/data/mascots";
+import { CozyRoom } from "@/components/CozyRoom";
+import { PixelNotepad } from "@/components/PixelNotepad";
+import { type MascotId } from "@/data/mascots";
 import {
   moods,
   times,
@@ -12,6 +14,7 @@ import {
   type WeatherId,
 } from "@/data/options";
 import { pickMenu, type Activity } from "@/data/activities";
+import { getMascotLine } from "@/data/mascot-lines";
 import {
   formatCountdown,
   msUntilReset,
