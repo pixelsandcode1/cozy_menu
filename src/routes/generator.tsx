@@ -1,8 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { Mascot } from "@/components/Mascot";
-import { getMascot, type MascotId } from "@/data/mascots";
+import { CozyRoom } from "@/components/CozyRoom";
+import { PixelNotepad } from "@/components/PixelNotepad";
+import { type MascotId } from "@/data/mascots";
 import {
   moods,
   times,
@@ -12,6 +14,7 @@ import {
   type WeatherId,
 } from "@/data/options";
 import { pickMenu, type Activity } from "@/data/activities";
+import { getMascotLine } from "@/data/mascot-lines";
 import {
   formatCountdown,
   msUntilReset,
@@ -132,7 +135,8 @@ function Generator() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center px-5 py-8 sm:py-12 relative overflow-hidden">
+    <main className="min-h-screen flex flex-col items-center px-5 py-8 sm:py-12 relative">
+      <CozyRoom weather={weather ?? "sunny"} />
       {/* Top bar */}
       <nav className="w-full max-w-2xl flex items-center justify-between mb-6">
         <Link
@@ -161,17 +165,18 @@ function Generator() {
             mood={mood}
             time={time}
             weather={weather}
+            mascotId={mascotId}
             onMood={setMood}
             onTime={setTime}
             onWeather={setWeather}
           />
         )}
 
-        {step === 3 && <GeneratingInterlude mascotId={mascotId} />}
+        {step === 3 && <GeneratingInterlude mascotId={mascotId} mood={mood} />}
 
         {step === 4 && (
-          <MenuReveal
-            menuRef={menuRef}
+          <PixelNotepad
+            innerRef={menuRef}
             menu={menu}
             mascotId={mascotId}
             mood={mood!}
@@ -268,11 +273,12 @@ function QuestionStep(props: {
   mood: MoodId | null;
   time: TimeId | null;
   weather: WeatherId | null;
+  mascotId: MascotId;
   onMood: (m: MoodId) => void;
   onTime: (t: TimeId) => void;
   onWeather: (w: WeatherId) => void;
 }) {
-  const { step, mood, time, weather, onMood, onTime, onWeather } = props;
+  const { step, mood, time, weather, mascotId, onMood, onTime, onWeather } = props;
 
   const headings = [
     "How are you feeling today?",
@@ -280,12 +286,17 @@ function QuestionStep(props: {
     "What's it like outside?",
   ];
 
+  const subline =
+    step === 0 && mood
+      ? getMascotLine(mascotId, mood)
+      : "no wrong answer ✿";
+
   return (
     <div className="w-full text-center animate-pop-in" key={step}>
       <h1 className="font-pixel text-2xl sm:text-3xl mb-2 text-foreground">
         {headings[step]}
       </h1>
-      <p className="text-sm text-foreground/65 mb-7">no wrong answer ✿</p>
+      <p className="text-sm text-foreground/75 mb-7" aria-live="polite">{subline}</p>
 
       <div
         className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto"
@@ -358,7 +369,7 @@ function Chip({
   );
 }
 
-function GeneratingInterlude({ mascotId }: { mascotId: MascotId }) {
+function GeneratingInterlude({ mascotId, mood }: { mascotId: MascotId; mood: MoodId | null }) {
   return (
     <div className="flex flex-col items-center text-center mt-6 animate-pop-in" aria-live="polite">
       <div className="relative">
@@ -380,76 +391,10 @@ function GeneratingInterlude({ mascotId }: { mascotId: MascotId }) {
       <p className="font-pixel text-xl sm:text-2xl mt-6 max-w-md">
         Today's cozy side missions can include...
       </p>
-    </div>
-  );
-}
-
-function MenuReveal({
-  menuRef,
-  menu,
-  mascotId,
-  mood,
-  time,
-  weather,
-}: {
-  menuRef: React.RefObject<HTMLDivElement | null>;
-  menu: Activity[];
-  mascotId: MascotId;
-  mood: MoodId;
-  time: TimeId;
-  weather: WeatherId;
-}) {
-  const mascot = getMascot(mascotId);
-  const moodLabel = useMemo(() => moods.find((m) => m.id === mood)?.label, [mood]);
-  const timeLabel = useMemo(() => times.find((t) => t.id === time)?.label, [time]);
-  const weatherLabel = useMemo(() => weathers.find((w) => w.id === weather)?.label, [weather]);
-
-  return (
-    <div
-      ref={menuRef}
-      className="w-full max-w-xl bg-card pixel-border pixel-shadow rounded-3xl p-6 sm:p-8 mt-2 animate-pop-in relative"
-      role="region"
-      aria-live="polite"
-      aria-label="Your cozy menu"
-    >
-      <div className="text-center mb-5">
-        <p className="font-pixel text-xs text-foreground/65 tracking-wider">
-          ⋆ today's dopamine menu ⋆
-        </p>
-        <p className="text-sm text-foreground/75 mt-1">
-          {moodLabel} · {timeLabel} · {weatherLabel}
-        </p>
-      </div>
-
-      <ul className="space-y-3">
-        {menu.map((a, i) => (
-          <li
-            key={a.id}
-            className="bg-background/70 rounded-2xl pixel-border p-4 flex items-start gap-3 animate-pop-in"
-            style={{ animationDelay: `${i * 90}ms` }}
-          >
-            <span className="text-3xl shrink-0" aria-hidden>
-              {a.emoji}
-            </span>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-baseline justify-between gap-2">
-                <h3 className="font-pixel text-base sm:text-lg text-foreground">{a.name}</h3>
-                <span className="text-xs text-foreground/55 whitespace-nowrap">
-                  ~{a.maxMinutes >= 60 ? "1hr" : `${a.maxMinutes}m`}
-                </span>
-              </div>
-              <p className="text-sm text-foreground/75 mt-0.5">{a.blurb}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <div className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4">
-        <Mascot id={mascotId} size={88} animated />
-      </div>
-      <p className="text-center text-xs text-foreground/55 mt-5 pr-16">
-        ✿ picked with care by {mascot.name}
+      <p className="text-sm text-foreground/75 mt-2 max-w-md italic">
+        {getMascotLine(mascotId, mood)}
       </p>
     </div>
   );
 }
+

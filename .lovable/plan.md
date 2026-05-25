@@ -1,148 +1,88 @@
-## Overview
+# Cozy Room Redesign Plan
 
-A self-contained, frontend-only interactive prototype embedded on your portfolio: a cozy pixel-art **Dopamine Menu Generator**. Users pick a mascot, answer 3 gentle questions (mood, time, weather), and receive a randomized cozy activity menu drawn from local data. No backend, no AI calls, no database.
+Authoring polish pass to make the prototype feel hand-made and portfolio-worthy. No backend, no new dependencies.
 
----
+## 1. Pixel cozy room backdrop (weather-reactive)
 
-## Sitemap
+New component `src/components/CozyRoom.tsx` — a CSS/SVG pixel scene rendered behind all content on `/` and `/generator`:
 
-```text
-/                    Landing — mascot picker + intro
-/generator           3-step question flow + menu reveal
-  (single route, internal state for steps)
-/about (optional)    1-paragraph "about this prototype" for portfolio context
+- Floor (rug), back wall, baseboard, a framed window, a desk-lamp, a potted plant, a small wall sticker.
+- Window contents swap with the current `weather` selection (read from state on `/generator`, default `sunny` on `/`):
+  - sunny → blue sky + pixel sun + 2 clouds (slow drift)
+  - cloudy → grey-blue sky + layered clouds
+  - rainy → dim sky + animated pixel raindrops (CSS `steps()` falling loop)
+  - snowy → pale sky + drifting snowflakes
+  - hot → orange/peach sky + heat shimmer (subtle vertical wobble)
+- Pure CSS + inline SVG with `image-rendering: pixelated`; no new assets needed.
+- Accessibility: backdrop is `aria-hidden="true"`, marked `pointer-events-none`, sits behind a `z-10` content layer. Respects `prefers-reduced-motion` — particles freeze, no shimmer.
+
+Wire-up: render `<CozyRoom weather={weather ?? 'sunny'} />` from `__root.tsx` via a tiny context, OR (simpler, chosen) render it inside each route and pass weather as a prop. Landing uses `'sunny'`; generator passes the selected weather, updating live as the user clicks the weather chips on step 3.
+
+## 2. Diegetic pixel notepad menu
+
+Replace the current rounded-card `MenuReveal` with a pixel notepad:
+
+- Notepad shell: cream paper, pink top binding with pixel spiral holes, faint horizontal rule lines (repeating-linear-gradient), slight 1° tilt.
+- Each activity becomes a small "sticky" rectangle "taped" onto the page:
+  - Two short pixel-tape strips (semi-transparent washi colors: peach, sage, lavender, powder blue — rotated ±6°) across the top corners of each sticky.
+  - Stickies alternate a tiny rotation (-1.5°, +1°, -0.5°, +1.5°) for a hand-placed feel.
+- Mascot peeks from the bottom-right corner of the notepad holding a pencil (existing mascot image, just positioned).
+- Handwritten-feel signature line: "✿ picked with care by {mascot.name}".
+- Save-as-image continues to work — html-to-image captures the notepad node, tape and tilts included.
+- Accessibility: notepad keeps `role="region"` + `aria-label`; rotations are decorative; tape is `aria-hidden`. Contrast verified against cream paper using existing `--foreground` token.
+
+## 3. Mood-aware mascot lines
+
+New file `src/data/mascot-lines.ts` — a `lines[mascotId][moodId]` map of short first-person quips, e.g.:
+
+- Pip (cat) × tired → "mm. let's start small today."
+- Pip × restless → "okay okay — let's burn some zoomies."
+- Sprig (frog) × sad → "tiny rainy joys count. promise."
+- Tuft (bunny) × anxious → "soft socks first. then we plan."
+- Boo (ghost) × content → "lovely. let's keep this feeling."
+- Plus a neutral fallback per mascot when mood not yet picked.
+
+Used in three spots:
+- Generator step 1 subhead (after mood chosen): swap "no wrong answer ✿" for the matching line.
+- Generating interlude: the mascot line under the sparkles.
+- Menu reveal: a small speech-bubble-style line near the notepad mascot ("mm. let's start small today.").
+
+## 4. Landing footer strip
+
+Add a slim strip at the very bottom of `/`:
+
+```
+✿ designed & built by Rachael using Lovable <3
 ```
 
-Single-page feel, but split into 2 routes so the portfolio iframe can deep-link to `/generator` if needed. All state lives client-side (React state + localStorage for chosen mascot).
+Pixel font, muted foreground color, centered, sits above (or replaces) the current `about this prototype` footer link — keep the about link on the same line, separated by a `·`.
 
----
+## 5. Audit: no gradient buttons
 
-## Interaction Flow
+Sweep `src/routes/*` and `src/components/*` for any `bg-gradient-*` / `from-` / `to-` utility usage on buttons or interactive surfaces and confirm none exist. Current buttons already use solid pastel tokens (`bg-primary`, `bg-secondary`, `bg-accent`, `bg-card`) — they stay. No changes to `button.tsx` variants. Confirm `--gradient-*` CSS tokens (if any in `src/styles.css`) are not applied to buttons.
+
+## 6. Accessibility pass
+
+- Backdrop and decorative tape: `aria-hidden="true"`, `pointer-events-none`.
+- `prefers-reduced-motion`: disables rain/snow/shimmer/cloud-drift and the notepad tilt animation; mascot bob already respects it via existing classes (verify).
+- All interactive controls keep visible `focus-visible:ring` (already present on chips and buttons).
+- Color contrast: mood line text on cream paper uses `text-foreground` (passes AA); tape colors are decorative only.
+- Single `<main>` per route preserved.
+- New mascot speech bubble uses `aria-live="polite"` so the line is announced when mood changes.
+
+## Files touched
 
 ```text
-Landing
-  │  pick mascot (cat / frog / bunny / ghost)
-  ▼
-Step 1 — "How are you feeling today?"   (mood chips)
-  ▼
-Step 2 — "How much time do you have?"   (time chips)
-  ▼
-Step 3 — "What's it like outside?"      (weather chips)
-  ▼
-Generating… ("Today's cozy side missions can include…")
-  ▼
-Menu reveal (4 activities) + mascot idle animation
-  │
-  ├─ Regenerate  (up to 3× / 5 min, then gentle countdown message)
-  ├─ Download as pixel-styled PNG
-  └─ Start over  (returns to Step 1, keeps mascot)
+new   src/components/CozyRoom.tsx
+new   src/components/PixelNotepad.tsx     (extracted from MenuReveal)
+new   src/data/mascot-lines.ts
+edit  src/routes/index.tsx                (backdrop + footer strip + mood-line on landing? no — landing has no mood)
+edit  src/routes/generator.tsx            (backdrop with live weather, mascot lines, swap MenuReveal → PixelNotepad)
+edit  src/styles.css                      (pixel-tape utility, notepad paper bg, rain/snow keyframes w/ steps(), reduced-motion guards)
 ```
 
-Back button on every step. Progress dots (●●○) above questions. No required typing — all tap/click chips for minimal cognitive load.
+No dependencies added. No data model changes. Activity pool, rate limit, and save-as-image flow are untouched.
 
----
+## Open question
 
-## Screen Breakdown
-
-**1. Landing**
-- Soft pastel background, title "Your Cozy Dopamine Menu"
-- Subtitle: "Tiny missions for soft days"
-- 4 mascot tiles (pixel art): Pip the Cat, Sprig the Frog, Tuft the Bunny, Boo the Ghost — each with a one-line personality
-- "Begin →" button enabled once mascot picked
-
-**2. Question Steps (×3)**
-- Mascot peeks in bottom-left
-- Question heading + 4–6 chip options
-- Progress dots, Back / Next
-- Chips show pixel-style emoji/SVG icon + label
-
-**3. Generating Interlude (~1.2s)**
-- "Today's cozy side missions can include…"
-- Mascot does a small loop animation (blink / bob)
-- Sparkle particles
-
-**4. Menu Reveal**
-- 4 activity cards stacked, each with: pixel icon, activity name, gentle one-line description, est. time
-- Mascot animates idle in bottom corner
-- Buttons: **Regenerate** (shows "2 fresh menus left"), **Save as image**, **Start over**
-- When cap hit: mascot speech bubble "let's pause and breathe — back in 4:32" with live countdown
-
----
-
-## UI Concept
-
-**Vibe:** Cozy pixel art, soft pastel, whimsical, uncluttered. Reference: Pinterest cozy pixel art link provided.
-
-**Palette** (pastel, AA-contrast safe for body text):
-- Background: warm cream `#FBF4E8`
-- Card surface: soft peach `#FDE6D3`
-- Primary (buttons / accents): muted lavender `#9B8AC4`
-- Secondary: sage `#A8C6A1`
-- Sky accent: powder blue `#B8D8E8`
-- Text: deep plum `#3A2E4C` on cream → ~12:1 contrast ✓
-
-**Typography:**
-- Headings: **Silkscreen** or **VT323** (pixel-style, used large only)
-- Body & chips: **Nunito** (rounded, highly readable) — ensures WCAG AA
-- Min body size 16px, chip labels 15px medium
-
-**Pixel feel:**
-- Chunky 8–12px border radius
-- 2–3px hard "pixel shadow" offsets instead of soft blur
-- `image-rendering: pixelated` on all raster mascot/icon assets
-- Subtle CSS `steps()` animations for mascot blink/bob (no easing)
-
-**Assets:**
-- **AI-generated pixel art mascots** (4 PNGs, transparent bg) via imagegen — chunky cozy pixel art, ~256×256
-- **Inline SVG icons** for weather/mood/activity (small, consistent, free)
-
----
-
-## Interactive Prototype Scope
-
-- Mascot picker (4 options, persist to localStorage)
-- 3-step chip-based questionnaire with progress
-- Generating interlude with mascot animation
-- Menu reveal: 4 activities pulled from local dataset, filtered by mood+time+weather, then randomized
-- Regenerate with rate-limit (3 / 5min via localStorage timestamps) + gentle countdown
-- Save as PNG (html-to-image library, renders the menu card)
-- Start-over flow
-- Fully responsive, works inside an iframe on your portfolio
-
----
-
-## What I need from you before building
-
-I'll need you to provide the **predefined datasets**. Suggested structure — please confirm or edit:
-
-**Moods** (pick ~6): e.g. Tired, Anxious, Restless, Sad, Content, Energized
-**Time ranges** (pick 4): e.g. 5 min, 15 min, 30 min, 1 hour+
-**Weather** (pick 5): e.g. Sunny, Cloudy, Rainy/Gloomy, Snowy, Hot
-**Activity pool** (~40–60 activities), each tagged with:
-- moods it fits (array)
-- min/max time
-- weather it fits (array, or "any")
-- category: low-effort dopamine / creative / low-movement / high-movement / social
-
-Once you confirm the plan, I'll ask for these in a structured list (or provide a starter set you can edit).
-
----
-
-## Technical Details
-
-- **Stack:** Existing TanStack Start template, frontend only, no Lovable Cloud
-- **Routes:** `src/routes/index.tsx` (landing), `src/routes/generator.tsx` (flow)
-- **State:** React `useState` for flow; `localStorage` for mascot + rate-limit timestamps
-- **Data:** `src/data/activities.ts` (typed activity pool), `src/data/options.ts` (moods/times/weather)
-- **Filtering:** pure function `pickMenu(mood, time, weather, exclude[])` → returns 4 balanced activities (1 per category where possible), randomized
-- **PNG export:** `html-to-image` (~10kb, no deps)
-- **Animation:** CSS `@keyframes` with `steps()` for true pixel feel; no Framer Motion needed
-- **Accessibility:** semantic chips as `<button>`, focus rings, `aria-live` for menu updates, all text passes WCAG AA on chosen palette
-- **SEO:** per-route `head()` metadata
-- **Mascot images:** 4 PNGs generated into `src/assets/` via imagegen `premium` tier for crisp pixel quality
-
----
-
-## Next step
-
-Approve this plan, then I'll request the mood / time / weather / activity dataset from you (or generate a starter set for you to edit) and begin the build.
+Should the landing page also show the cozy room (with a default sunny window), or stay on the current clean cream background so the room is a "reveal" once the user enters the generator? Default in this plan: **show on both**, sunny on landing — it sets the tone immediately. Tell me if you'd prefer to keep landing minimal.

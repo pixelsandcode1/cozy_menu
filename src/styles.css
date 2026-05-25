@@ -142,3 +142,55 @@
 .animate-pop-in {
   animation: pop-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
 }
+
+/* Cozy room weather animations */
+@keyframes cloud-drift {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(20px); }
+  100% { transform: translateX(0); }
+}
+@keyframes rain-fall {
+  0% { transform: translateY(0); opacity: 0.9; }
+  100% { transform: translateY(120vh); opacity: 0.6; }
+}
+@keyframes snow-fall {
+  0% { transform: translateY(0) translateX(0); opacity: 0.9; }
+  50% { transform: translateY(60vh) translateX(8px); }
+  100% { transform: translateY(120vh) translateX(-4px); opacity: 0.7; }
+}
+@keyframes heat-shimmer {
+  0%, 100% { opacity: 0.15; transform: translateY(0); }
+  50% { opacity: 0.3; transform: translateY(-2px); }
+}
+.animate-cloud-drift { animation: cloud-drift 14s ease-in-out infinite; }
+.animate-rain-fall { animation: rain-fall 1s steps(8, end) infinite; }
+.animate-snow-fall { animation: snow-fall 3s linear infinite; }
+.animate-heat-shimmer { animation: heat-shimmer 2.4s ease-in-out infinite; }
+
+/* Notepad paper rule lines */
+.notepad-paper {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 27px,
+    oklch(0.64 0.11 300 / 12%) 27px,
+    oklch(0.64 0.11 300 / 12%) 28px
+  );
+}
+.notepad-tilt { transform: rotate(-0.6deg); }
+.sticky-note { transition: transform 0.2s ease; }
+
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-bob,
+  .animate-sparkle,
+  .animate-pop-in,
+  .animate-cloud-drift,
+  .animate-rain-fall,
+  .animate-snow-fall,
+  .animate-heat-shimmer {
+    animation: none !important;
+  }
+  .notepad-tilt,
+  .sticky-note { transform: none !important; }
+}
