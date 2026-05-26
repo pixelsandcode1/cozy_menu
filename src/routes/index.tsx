@@ -105,5 +105,6 @@ function Landing() {
         </Link>
       </footer>
     </main>
+    </>
   );
 }
