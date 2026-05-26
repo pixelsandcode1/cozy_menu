@@ -12,7 +12,7 @@ export function CozyRoom({ weather }: CozyRoomProps) {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
       {/* Wall */}
       <div className="absolute inset-0 bg-[oklch(0.94_0.03_75)]" />
