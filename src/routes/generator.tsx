@@ -266,6 +266,7 @@ function Generator() {
         </div>
       )}
     </main>
+    </>
   );
 }
 
