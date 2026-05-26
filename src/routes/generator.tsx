@@ -135,7 +135,7 @@ function Generator() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center px-5 py-8 sm:py-12 relative">
+    <main className="min-h-screen flex flex-col items-center px-5 py-8 sm:py-12 relative z-10">
       <CozyRoom weather={weather ?? "sunny"} />
       {/* Top bar */}
       <nav className="w-full max-w-2xl flex items-center justify-between mb-6">
