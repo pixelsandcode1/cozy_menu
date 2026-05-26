@@ -39,8 +39,9 @@ function Landing() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center px-5 py-10 sm:py-14 relative">
+    <>
       <CozyRoom weather="sunny" />
+      <main className="min-h-screen flex flex-col items-center px-5 py-10 sm:py-14 relative z-10">
       <header className="text-center max-w-xl">
         <p className="font-pixel text-sm sm:text-base text-primary mb-3">
           ⋆ ˚｡⋆୨୧ a cozy little prototype ୨୧⋆ ˚｡⋆
@@ -104,5 +105,6 @@ function Landing() {
         </Link>
       </footer>
     </main>
+    </>
   );
 }
