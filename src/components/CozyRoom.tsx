@@ -132,7 +132,7 @@ function WindowScene({ weather }: { weather: WeatherId }) {
       )}
       {weather === "hot" && (
         <>
-          <div className="absolute top-[16%] right-[16%] w-[44px] h-[44px] rounded-full bg-[oklch(0.86_0.2_55)] border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
+          <div className="absolute top-[16%] right-[16%] w-[68px] h-[68px] rounded-full bg-[oklch(0.86_0.2_55)] border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
           <div className="absolute inset-0 animate-heat-shimmer bg-[oklch(0.95_0.06_55/15%)]" />
         </>
       )}
