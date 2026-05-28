@@ -66,6 +66,7 @@ function Landing() {
               key={m.id}
               type="button"
               onClick={() => { setPicked(m.id); setHasSelected(true); }}
+              aria-pressed={active}
               className={`group flex flex-col items-center gap-2 rounded-2xl p-4 pixel-border bg-card transition-transform focus:outline-none focus-visible:ring-4 focus-visible:ring-ring/50 ${
                 active ? "pixel-shadow -translate-y-1 bg-accent" : "pixel-shadow-sm hover:-translate-y-0.5"
               }`}
