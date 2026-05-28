@@ -156,17 +156,18 @@ function Cloud({
       style={{ animationDelay: delay }}
     >
       <div
-        className="relative w-[60px] h-[18px] rounded-full"
+        className="relative w-[84px] h-[26px] rounded-full"
         style={{ background: color }}
       >
         <div
-          className="absolute -top-[10px] left-[10px] w-[28px] h-[20px] rounded-full"
+          className="absolute -top-[14px] left-[14px] w-[40px] h-[28px] rounded-full"
           style={{ background: color }}
         />
         <div
-          className="absolute -top-[7px] left-[28px] w-[24px] h-[18px] rounded-full"
+          className="absolute -top-[10px] left-[40px] w-[34px] h-[26px] rounded-full"
           style={{ background: color }}
         />
+      </div>
       </div>
     </div>
   );
