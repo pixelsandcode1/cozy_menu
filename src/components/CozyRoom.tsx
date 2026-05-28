@@ -84,7 +84,6 @@ export function CozyRoom({ weather }: CozyRoomProps) {
     </div>
   );
 }
-}
 
 function WindowScene({ weather }: { weather: WeatherId }) {
   const sky =
