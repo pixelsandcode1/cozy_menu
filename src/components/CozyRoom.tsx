@@ -100,12 +100,12 @@ function WindowScene({ weather }: { weather: WeatherId }) {
   return (
     <div className="absolute inset-0" style={{ background: sky }}>
       {/* Hills */}
-      <div className="absolute left-[-10%] bottom-0 w-[60%] h-[40%] rounded-t-[50%] bg-[oklch(0.74_0.1_148)]" />
-      <div className="absolute right-[-10%] bottom-0 w-[55%] h-[34%] rounded-t-[50%] bg-[oklch(0.7_0.11_150)]" />
+      <div className="absolute left-[-10%] bottom-0 w-[60%] h-[28%] rounded-t-[50%] bg-[oklch(0.74_0.1_148)]" />
+      <div className="absolute right-[-10%] bottom-0 w-[55%] h-[24%] rounded-t-[50%] bg-[oklch(0.7_0.11_150)]" />
 
       {weather === "sunny" && (
         <>
-          <div className="absolute top-[14%] right-[18%] w-[36px] h-[36px] rounded-full bg-[oklch(0.92_0.15_85)] border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
+          <div className="absolute top-[14%] right-[18%] w-[56px] h-[56px] rounded-full bg-[oklch(0.92_0.15_85)] border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
           <Cloud className="top-[20%] left-[10%]" delay="0s" />
           <Cloud className="top-[34%] left-[55%]" delay="3s" />
         </>
