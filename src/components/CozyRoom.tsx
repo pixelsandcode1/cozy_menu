@@ -177,8 +177,8 @@ function Rain() {
     <div className="absolute inset-0 overflow-hidden">
       {Array.from({ length: 18 }).map((_, i) => (
         <span
+          key={i}
           className="absolute top-[-10%] w-[2px] h-[14px] bg-[oklch(0.85_0.06_240/80%)] animate-rain-fall"
-          className="absolute top-[-10%] w-[2px] h-[10px] bg-[oklch(0.85_0.06_240/80%)] animate-rain-fall"
           style={{
             left: `${(i * 5.7) % 100}%`,
             animationDelay: `${(i % 6) * 0.18}s`,
