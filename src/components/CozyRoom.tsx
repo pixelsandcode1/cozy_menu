@@ -40,7 +40,10 @@ export function CozyRoom({ weather }: CozyRoomProps) {
         }}
       />
       {/* Window */}
-      <div className="absolute left-[6vw] top-[8vh] w-[clamp(180px,28vw,320px)] aspect-[5/8]">
+      <div
+        className="absolute left-[6vw] top-[8vh] w-[clamp(180px,28vw,320px)] aspect-[5/8]"
+        style={{ maxHeight: "calc(100vh - 8vh - 28vh - 26px)" }}
+      >
         <div
           className="absolute inset-0 rounded-[8px] overflow-hidden"
           style={{
