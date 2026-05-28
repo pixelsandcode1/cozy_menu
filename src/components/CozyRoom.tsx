@@ -196,7 +196,7 @@ function Snow() {
       {Array.from({ length: 14 }).map((_, i) => (
         <span
           key={i}
-          className="absolute top-[-6%] w-[4px] h-[4px] rounded-full bg-white animate-snow-fall"
+          className="absolute top-[-6%] w-[6px] h-[6px] rounded-full bg-white animate-snow-fall"
           style={{
             left: `${(i * 7.3) % 100}%`,
             animationDelay: `${(i % 5) * 0.35}s`,
