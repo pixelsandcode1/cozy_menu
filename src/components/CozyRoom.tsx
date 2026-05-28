@@ -39,9 +39,8 @@ export function CozyRoom({ weather }: CozyRoomProps) {
           boxShadow: "4px 4px 0 0 oklch(0.28 0.06 305 / 18%)",
         }}
       />
-
       {/* Window */}
-      <div className="absolute left-[6vw] top-[8vh] w-[clamp(180px,28vw,320px)] aspect-[5/4]">
+      <div className="absolute left-[6vw] top-[8vh] w-[clamp(180px,28vw,320px)] aspect-[5/8]">
         <div
           className="absolute inset-0 rounded-[8px] overflow-hidden"
           style={{
@@ -60,26 +59,31 @@ export function CozyRoom({ weather }: CozyRoomProps) {
       </div>
 
       {/* Potted plant (bottom right) */}
-      <div className="absolute right-[5vw] bottom-[16vh] w-[80px] h-[110px]">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60px] h-[40px] bg-[oklch(0.66_0.1_40)] rounded-b-[6px] border-[3px] border-[oklch(0.28_0.06_305/30%)]" />
-        <div className="absolute bottom-[34px] left-1/2 -translate-x-1/2 w-[44px] h-[20px] bg-[oklch(0.78_0.08_60)] rounded-[3px] border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
-        {/* leaves */}
-        <div className="absolute bottom-[48px] left-[10px] w-[26px] h-[44px] bg-[oklch(0.7_0.12_145)] rounded-[50%] -rotate-12 border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
-        <div className="absolute bottom-[54px] right-[6px] w-[24px] h-[40px] bg-[oklch(0.74_0.12_150)] rounded-[50%] rotate-12 border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
-        <div className="absolute bottom-[62px] left-1/2 -translate-x-1/2 w-[22px] h-[48px] bg-[oklch(0.78_0.13_148)] rounded-[50%] border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
+      <div className="absolute right-[5vw] bottom-[16vh] w-[130px] h-[180px]">
+        {/* Pot body */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[100px] h-[64px] bg-[oklch(0.66_0.1_40)] rounded-b-[6px] border-[3px] border-[oklch(0.28_0.06_305/30%)]" />
+        {/* Pot rim */}
+        <div className="absolute bottom-[58px] left-1/2 -translate-x-1/2 w-[76px] h-[26px] bg-[oklch(0.78_0.08_60)] rounded-[3px] border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
+        {/* Back-layer leaves (taller, lighter, behind center) */}
+        <div className="absolute bottom-[88px] left-[24px] w-[28px] h-[80px] bg-[oklch(0.78_0.13_148)] rounded-[50%] -rotate-6 border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
+        <div className="absolute bottom-[88px] right-[22px] w-[28px] h-[78px] bg-[oklch(0.78_0.13_148)] rounded-[50%] rotate-6 border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
+        {/* Far-low side leaves (darker, drooping) */}
+        <div className="absolute bottom-[74px] left-[2px] w-[34px] h-[54px] bg-[oklch(0.62_0.13_148)] rounded-[50%] -rotate-[28deg] border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
+        <div className="absolute bottom-[74px] right-[0px] w-[34px] h-[54px] bg-[oklch(0.62_0.13_148)] rounded-[50%] rotate-[28deg] border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
+        {/* Mid leaves (existing trio, scaled up) */}
+        <div className="absolute bottom-[80px] left-[14px] w-[42px] h-[72px] bg-[oklch(0.7_0.12_145)] rounded-[50%] -rotate-12 border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
+        <div className="absolute bottom-[86px] right-[10px] w-[40px] h-[68px] bg-[oklch(0.74_0.12_150)] rounded-[50%] rotate-12 border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
+        {/* Center tall leaf */}
+        <div className="absolute bottom-[94px] left-1/2 -translate-x-1/2 w-[36px] h-[80px] bg-[oklch(0.78_0.13_148)] rounded-[50%] border-[3px] border-[oklch(0.28_0.06_305/25%)]" />
       </div>
 
       {/* Wall sticker (heart) */}
       <div className="absolute right-[14vw] top-[14vh] font-pixel text-2xl text-[oklch(0.64_0.11_300)] opacity-70 rotate-12 select-none">
         ♥
       </div>
-      {/* Lamp (top right) */}
-      <div className="absolute right-[8vw] top-[5vh] w-[60px] h-[70px]">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[50px] h-[28px] bg-[oklch(0.86_0.08_60)] rounded-t-[40%_60%] border-[3px] border-[oklch(0.28_0.06_305/30%)]" />
-        <div className="absolute top-[28px] left-1/2 -translate-x-1/2 w-[4px] h-[40px] bg-[oklch(0.28_0.06_305/30%)]" />
-      </div>
     </div>
   );
+}
 }
 
 function WindowScene({ weather }: { weather: WeatherId }) {
