@@ -61,6 +61,7 @@ function Landing() {
       >
         {mascots.map((m) => {
           const active = picked === m.id;
+          const showActive = hasSelected && active;
           return (
             <button
               key={m.id}
@@ -68,10 +69,10 @@ function Landing() {
               onClick={() => { setPicked(m.id); setHasSelected(true); }}
               aria-pressed={active}
               className={`group flex flex-col items-center gap-2 rounded-2xl p-4 pixel-border bg-card transition-transform focus:outline-none focus-visible:ring-4 focus-visible:ring-ring/50 ${
-                active ? "pixel-shadow -translate-y-1 bg-accent" : "pixel-shadow-sm hover:-translate-y-0.5"
+                showActive ? "pixel-shadow -translate-y-1 bg-accent" : "pixel-shadow-sm hover:-translate-y-0.5"
               }`}
             >
-              <Mascot id={m.id} size={112} animated={active} />
+              <Mascot id={m.id} size={112} animated={showActive} />
               <div className="text-center">
                 <div className="font-pixel text-lg text-foreground">
                   {m.name} <span className="text-foreground/60 text-sm">{m.species}</span>
