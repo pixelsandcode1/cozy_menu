@@ -111,6 +111,9 @@ function Generator() {
   };
 
   const handleStartOver = () => {
+    if (remaining <= 0) return;
+    recordRegen();
+    setRemaining(regensRemaining());
     setMood(null);
     setTime(null);
     setWeather(null);

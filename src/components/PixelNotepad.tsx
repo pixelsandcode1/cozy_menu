@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Mascot } from "@/components/Mascot";
 import { getMascot, type MascotId } from "@/data/mascots";
 import { moods, times, weathers, type MoodId, type TimeId, type WeatherId } from "@/data/options";
-import { getMascotLine } from "@/data/mascot-lines";
+
 import type { Activity } from "@/data/activities";
 
 interface PixelNotepadProps {
@@ -34,7 +34,7 @@ export function PixelNotepad({
   const moodLabel = useMemo(() => moods.find((m) => m.id === mood)?.label, [mood]);
   const timeLabel = useMemo(() => times.find((t) => t.id === time)?.label, [time]);
   const weatherLabel = useMemo(() => weathers.find((w) => w.id === weather)?.label, [weather]);
-  const line = getMascotLine(mascotId, mood);
+  
 
   return (
     <div
@@ -117,18 +117,8 @@ export function PixelNotepad({
         </p>
       </div>
 
-      {/* Mascot + speech bubble */}
-      <div className="absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-4 flex items-end gap-2">
-        <div
-          className="relative bg-card pixel-border rounded-xl px-3 py-2 max-w-[180px] mb-6"
-          aria-live="polite"
-        >
-          <p className="text-xs sm:text-sm text-foreground">{line}</p>
-          <span
-            aria-hidden="true"
-            className="absolute -right-2 bottom-3 w-3 h-3 bg-card border-r-2 border-b-2 border-[oklch(0.28_0.06_305/28%)] rotate-[-45deg]"
-          />
-        </div>
+      {/* Mascot peeking from the corner */}
+      <div className="absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-4">
         <Mascot id={mascotId} size={88} animated />
       </div>
     </div>
