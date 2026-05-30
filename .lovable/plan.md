@@ -1,26 +1,21 @@
-# Fix menu screen overlap + Start Over counter
+# Reset fresh-menu counter to 3 after the timer ends
 
-Two small changes on the generator output screen.
+## What's happening
 
-## 1. Remove the mascot speech bubble on the menu
+The counter uses a **rolling** 5-minute window (`src/lib/rate-limit.ts`). Three timestamps are stored; each one expires individually 5 minutes after it was made. So when the user hits the limit and waits for the on-screen countdown to finish, only the **oldest** stamp has aged out — the other two are still active. `regensRemaining()` returns `1`, which is why the footer reads "1 fresh menu left in this little window".
 
-On the notepad output, the mascot's encouragement bubble overlaps the "✿ picked with care by {mascot}" footer. Remove the bubble entirely and keep just the mascot peeking from the corner.
+The countdown shown to the user (`msUntilReset`) is based on the oldest stamp, which reinforces the expectation that when it hits 0:00 the allowance is fully restored to 3 — but the current logic only restores 1.
 
-- File: `src/components/PixelNotepad.tsx`
-- Delete the speech-bubble `<div>` (the one containing `{line}` and the little arrow span) inside the bottom-right `flex` container.
-- Keep the `<Mascot id={mascotId} size={88} animated />` so the mascot still appears.
-- Remove the now-unused `line` variable and the `getMascotLine` import.
+## Fix
 
-The encouragement line still shows during the generating interlude, so the mascot's voice isn't lost — it just doesn't cover the menu.
+Make the limit a **fixed window**: once the countdown elapses, all three slots come back at once.
 
-## 2. Start Over should consume a regeneration
+- File: `src/lib/rate-limit.ts`
+- In `active()`, change the semantics so that if the most recent batch has fully expired we treat the list as empty. Simplest implementation: when reading stamps, if the oldest stamp is older than `WINDOW_MS`, clear the whole list (write `[]` back) and return `[]`. Otherwise return the stamps as-is.
+- `regensRemaining()`, `recordRegen()`, and `msUntilReset()` keep their current shape and will now naturally report `3` once the window closes.
 
-Right now, "start over" resets the questions and lets the user produce a brand-new menu without touching the counter, so the rate limit can be bypassed. Make Start Over count the same as "try a different menu".
+No other files need to change — `generator.tsx` already calls `setRemaining(regensRemaining())` when the countdown ticks to 0, so the footer text will update on its own.
 
-- File: `src/routes/generator.tsx`
-- In `handleStartOver`, before resetting state:
-  - If `remaining <= 0`, do nothing (same guard as regenerate).
-  - Otherwise call `recordRegen()` and `setRemaining(regensRemaining())`, then proceed with the existing reset.
-- The Start Over button should be disabled (and visually muted) when `remaining <= 0`, matching the regenerate behavior, so the rate-limit message remains the only path forward.
+## Note
 
-No other files need to change.
+This also means a user who burns 1 menu, waits 4 minutes, then burns 2 more will get all 3 back 5 minutes after that **third** action, instead of staggered refills. That matches the single visible countdown the UI already shows, so it's the less confusing behavior.
