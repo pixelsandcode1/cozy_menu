@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { toPng } from "html-to-image";
+import html2canvas from "html2canvas-pro";
+import { toast } from "sonner";
 import { Mascot } from "@/components/Mascot";
 import { CozyRoom } from "@/components/CozyRoom";
 import { PixelNotepad } from "@/components/PixelNotepad";
