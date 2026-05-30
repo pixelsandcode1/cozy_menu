@@ -22,7 +22,16 @@ function write(stamps: number[]) {
 
 function active(): number[] {
   const now = Date.now();
-  return read().filter((t) => now - t < WINDOW_MS);
+  const stamps = read();
+  if (stamps.length === 0) return stamps;
+  const oldest = Math.min(...stamps);
+  // Fixed window: once the oldest stamp ages out, clear the whole batch
+  // so the allowance fully resets to MAX rather than refilling one slot.
+  if (now - oldest >= WINDOW_MS) {
+    write([]);
+    return [];
+  }
+  return stamps;
 }
 
 export function regensRemaining(): number {
