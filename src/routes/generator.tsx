@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { toPng } from "html-to-image";
+import html2canvas from "html2canvas-pro";
+import { toast } from "sonner";
 import { Mascot } from "@/components/Mascot";
 import { CozyRoom } from "@/components/CozyRoom";
 import { PixelNotepad } from "@/components/PixelNotepad";
@@ -53,6 +54,7 @@ function Generator() {
   const [menu, setMenu] = useState<Activity[]>([]);
   const [remaining, setRemaining] = useState(3);
   const [countdown, setCountdown] = useState("");
+  const [saving, setSaving] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -122,18 +124,32 @@ function Generator() {
   };
 
   const handleSave = async () => {
-    if (!menuRef.current) return;
+    if (!menuRef.current || saving) return;
+    setSaving(true);
     try {
-      const dataUrl = await toPng(menuRef.current, {
-        pixelRatio: 2,
+      const canvas = await html2canvas(menuRef.current, {
+        scale: 2,
         backgroundColor: "#FBF4E8",
+        useCORS: true,
+        logging: false,
       });
+      const blob: Blob | null = await new Promise((resolve) =>
+        canvas.toBlob((b) => resolve(b), "image/png"),
+      );
+      if (!blob) throw new Error("blob failed");
+      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = dataUrl;
+      a.href = url;
       a.download = `cozy-menu-${Date.now()}.png`;
+      document.body.appendChild(a);
       a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
     } catch (e) {
       console.error(e);
+      toast.error("Couldn't save image, please try again");
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -242,9 +258,10 @@ function Generator() {
             <button
               type="button"
               onClick={handleSave}
-              className="font-pixel text-base px-5 py-3 rounded-xl bg-accent text-accent-foreground pixel-shadow-sm pixel-border"
+              disabled={saving}
+              className="font-pixel text-base px-5 py-3 rounded-xl bg-accent text-accent-foreground pixel-shadow-sm pixel-border disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              ⬇ save as image
+              {saving ? "saving…" : "⬇ save as image"}
             </button>
             <button
               type="button"
