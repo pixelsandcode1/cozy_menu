@@ -258,9 +258,10 @@ function Generator() {
             <button
               type="button"
               onClick={handleSave}
-              className="font-pixel text-base px-5 py-3 rounded-xl bg-accent text-accent-foreground pixel-shadow-sm pixel-border"
+              disabled={saving}
+              className="font-pixel text-base px-5 py-3 rounded-xl bg-accent text-accent-foreground pixel-shadow-sm pixel-border disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              ⬇ save as image
+              {saving ? "saving…" : "⬇ save as image"}
             </button>
             <button
               type="button"
