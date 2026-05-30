@@ -1,21 +1,23 @@
-# Reset fresh-menu counter to 3 after the timer ends
+# Fix "save as image" button
 
-## What's happening
-
-The counter uses a **rolling** 5-minute window (`src/lib/rate-limit.ts`). Three timestamps are stored; each one expires individually 5 minutes after it was made. So when the user hits the limit and waits for the on-screen countdown to finish, only the **oldest** stamp has aged out — the other two are still active. `regensRemaining()` returns `1`, which is why the footer reads "1 fresh menu left in this little window".
-
-The countdown shown to the user (`msUntilReset`) is based on the oldest stamp, which reinforces the expectation that when it hits 0:00 the allowance is fully restored to 3 — but the current logic only restores 1.
+## What's broken
+`handleSave` in `src/routes/generator.tsx` uses `toPng()` from `html-to-image`, wrapped in a try/catch that only logs to the console. Nothing downloads because the capture throws: `html-to-image` cannot serialize the `oklch(...)` colors that Tailwind v4 / `src/styles.css` use throughout the notepad. The error is swallowed, so the button appears dead.
 
 ## Fix
 
-Make the limit a **fixed window**: once the countdown elapses, all three slots come back at once.
+1. Replace `html-to-image` with `html2canvas-pro` — a maintained fork that supports `oklch`, `lab`, and CSS variables. This is the smallest change that makes the button actually produce a PNG.
+2. Rewrite `handleSave` to:
+   - render `menuRef.current` with `html2canvas-pro` (`scale: 2`, `backgroundColor: "#FBF4E8"`, `useCORS: true`)
+   - convert the canvas to a Blob via `canvas.toBlob()`
+   - trigger a download of `cozy-menu-{timestamp}.png` via an object URL, then revoke it
+   - on failure, show a `sonner` toast (`toast.error("Couldn't save image, please try again")`) instead of silent `console.error`
+3. Add a brief "saving…" disabled state on the button while the capture runs so the user gets feedback on the click.
 
-- File: `src/lib/rate-limit.ts`
-- In `active()`, change the semantics so that if the most recent batch has fully expired we treat the list as empty. Simplest implementation: when reading stamps, if the oldest stamp is older than `WINDOW_MS`, clear the whole list (write `[]` back) and return `[]`. Otherwise return the stamps as-is.
-- `regensRemaining()`, `recordRegen()`, and `msUntilReset()` keep their current shape and will now naturally report `3` once the window closes.
+No new buttons, no print, no copy — only the existing "save as image" button is touched.
 
-No other files need to change — `generator.tsx` already calls `setRemaining(regensRemaining())` when the countdown ticks to 0, so the footer text will update on its own.
+## Files touched
+- `package.json` — remove `html-to-image`, add `html2canvas-pro`
+- `src/routes/generator.tsx` — swap import, rewrite `handleSave`, add saving state on the button
 
-## Note
-
-This also means a user who burns 1 menu, waits 4 minutes, then burns 2 more will get all 3 back 5 minutes after that **third** action, instead of staggered refills. That matches the single visible countdown the UI already shows, so it's the less confusing behavior.
+## Out of scope
+Menu generation, rate limiting, mascot logic, notepad styling.
