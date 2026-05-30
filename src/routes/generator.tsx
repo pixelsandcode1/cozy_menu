@@ -111,6 +111,9 @@ function Generator() {
   };
 
   const handleStartOver = () => {
+    if (remaining <= 0) return;
+    recordRegen();
+    setRemaining(regensRemaining());
     setMood(null);
     setTime(null);
     setWeather(null);
@@ -246,7 +249,8 @@ function Generator() {
             <button
               type="button"
               onClick={handleStartOver}
-              className="font-pixel text-base px-5 py-3 rounded-xl bg-card text-foreground pixel-shadow-sm pixel-border"
+              disabled={remaining <= 0}
+              className="font-pixel text-base px-5 py-3 rounded-xl bg-card text-foreground pixel-shadow-sm pixel-border disabled:opacity-50 disabled:cursor-not-allowed"
             >
               start over
             </button>
