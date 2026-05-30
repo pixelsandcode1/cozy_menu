@@ -54,6 +54,7 @@ function Generator() {
   const [menu, setMenu] = useState<Activity[]>([]);
   const [remaining, setRemaining] = useState(3);
   const [countdown, setCountdown] = useState("");
+  const [saving, setSaving] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
