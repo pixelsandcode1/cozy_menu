@@ -8,15 +8,16 @@ export type MascotId = "cat" | "frog" | "bunny" | "ghost";
 export interface Mascot {
   id: MascotId;
   name: string;
+  species: string;
   blurb: string;
   src: string;
 }
 
 export const mascots: Mascot[] = [
-  { id: "cat", name: "Pip", blurb: "loves naps & slow mornings", src: cat },
-  { id: "frog", name: "Kiwi", blurb: "finds joy in every rainfall", src: frog },
-  { id: "bunny", name: "Luna", blurb: "fan of soft socks & snacks", src: bunny },
-  { id: "ghost", name: "Boo", blurb: "no haunting, just vibing", src: ghost },
+  { id: "cat", name: "Pip", species: "cat", blurb: "loves naps & slow mornings", src: cat },
+  { id: "frog", name: "Kiwi", species: "frog", blurb: "finds joy in every rainfall", src: frog },
+  { id: "bunny", name: "Luna", species: "bunny", blurb: "fan of soft socks & snacks", src: bunny },
+  { id: "ghost", name: "Boo", species: "ghost", blurb: "no haunting, just vibing", src: ghost },
 ];
 
 export function getMascot(id: MascotId | null | undefined): Mascot {
