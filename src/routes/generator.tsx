@@ -130,24 +130,62 @@ function Generator() {
       const canvas = await html2canvas(menuRef.current, {
         scale: 2,
         backgroundColor: "#FBF4E8",
-        useCORS: true,
         logging: false,
+        onclone: (_doc, clonedNode) => {
+          // Neutralise transforms / animations on the clone only — html2canvas-pro
+          // can produce a zero-size canvas when capturing a rotated/animating root.
+          const root = clonedNode as HTMLElement;
+          root.classList.remove("notepad-tilt", "animate-pop-in");
+          root.style.transform = "none";
+          root.style.animation = "none";
+          root.querySelectorAll<HTMLElement>(
+            ".sticky-note, .animate-pop-in, .animate-bob, .animate-sparkle",
+          ).forEach((el) => {
+            el.classList.remove(
+              "animate-pop-in",
+              "animate-bob",
+              "animate-sparkle",
+            );
+            el.style.transform = "none";
+            el.style.animation = "none";
+          });
+        },
       });
+
+      if (!canvas.width || !canvas.height) {
+        throw new Error("html2canvas returned an empty canvas");
+      }
+
+      const filename = `cozy-menu-${Date.now()}.png`;
+      const triggerDownload = (href: string, revoke?: () => void) => {
+        const a = document.createElement("a");
+        a.href = href;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        revoke?.();
+      };
+
       const blob: Blob | null = await new Promise((resolve) =>
         canvas.toBlob((b) => resolve(b), "image/png"),
       );
-      if (!blob) throw new Error("blob failed");
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `cozy-menu-${Date.now()}.png`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+
+      if (blob) {
+        const url = URL.createObjectURL(blob);
+        triggerDownload(url, () => URL.revokeObjectURL(url));
+      } else {
+        // Safari / certain WebKit builds occasionally hand back null — fall back
+        // to a data URL so the user still gets their file.
+        const dataUrl = canvas.toDataURL("image/png");
+        if (!dataUrl || dataUrl === "data:,") {
+          throw new Error("Failed to encode PNG");
+        }
+        triggerDownload(dataUrl);
+      }
     } catch (e) {
-      console.error(e);
-      toast.error("Couldn't save image, please try again");
+      console.error("[save-as-image]", e);
+      toast.error("Couldn't save image — please try again");
     } finally {
       setSaving(false);
     }
