@@ -6,7 +6,6 @@ import { moods, times, weathers, type MoodId, type TimeId, type WeatherId } from
 import type { Activity } from "@/data/activities";
 
 interface PixelNotepadProps {
-  innerRef: React.RefObject<HTMLDivElement | null>;
   menu: Activity[];
   mascotId: MascotId;
   mood: MoodId;
@@ -23,7 +22,6 @@ const TAPE_COLORS = [
 const TILTS = ["-1.5deg", "1deg", "-0.5deg", "1.5deg"];
 
 export function PixelNotepad({
-  innerRef,
   menu,
   mascotId,
   mood,
@@ -38,7 +36,6 @@ export function PixelNotepad({
 
   return (
     <div
-      ref={innerRef}
       role="region"
       aria-label="Your cozy menu notepad"
       className="relative w-full max-w-xl mt-2 animate-pop-in notepad-tilt"

@@ -1,7 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import html2canvas from "html2canvas-pro";
-import { toast } from "sonner";
+import { useEffect, useState } from "react";
 import { Mascot } from "@/components/Mascot";
 import { CozyRoom } from "@/components/CozyRoom";
 import { PixelNotepad } from "@/components/PixelNotepad";
@@ -54,8 +52,6 @@ function Generator() {
   const [menu, setMenu] = useState<Activity[]>([]);
   const [remaining, setRemaining] = useState(3);
   const [countdown, setCountdown] = useState("");
-  const [saving, setSaving] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const saved = (localStorage.getItem("dm:mascot") as MascotId | null) ?? "cat";
@@ -123,74 +119,6 @@ function Generator() {
     setStep(0);
   };
 
-  const handleSave = async () => {
-    if (!menuRef.current || saving) return;
-    setSaving(true);
-    try {
-      const canvas = await html2canvas(menuRef.current, {
-        scale: 2,
-        backgroundColor: "#FBF4E8",
-        logging: false,
-        onclone: (_doc, clonedNode) => {
-          // Neutralise transforms / animations on the clone only — html2canvas-pro
-          // can produce a zero-size canvas when capturing a rotated/animating root.
-          const root = clonedNode as HTMLElement;
-          root.classList.remove("notepad-tilt", "animate-pop-in");
-          root.style.transform = "none";
-          root.style.animation = "none";
-          root.querySelectorAll<HTMLElement>(
-            ".sticky-note, .animate-pop-in, .animate-bob, .animate-sparkle",
-          ).forEach((el) => {
-            el.classList.remove(
-              "animate-pop-in",
-              "animate-bob",
-              "animate-sparkle",
-            );
-            el.style.transform = "none";
-            el.style.animation = "none";
-          });
-        },
-      });
-
-      if (!canvas.width || !canvas.height) {
-        throw new Error("html2canvas returned an empty canvas");
-      }
-
-      const filename = `cozy-menu-${Date.now()}.png`;
-      const triggerDownload = (href: string, revoke?: () => void) => {
-        const a = document.createElement("a");
-        a.href = href;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        revoke?.();
-      };
-
-      const blob: Blob | null = await new Promise((resolve) =>
-        canvas.toBlob((b) => resolve(b), "image/png"),
-      );
-
-      if (blob) {
-        const url = URL.createObjectURL(blob);
-        triggerDownload(url, () => URL.revokeObjectURL(url));
-      } else {
-        // Safari / certain WebKit builds occasionally hand back null — fall back
-        // to a data URL so the user still gets their file.
-        const dataUrl = canvas.toDataURL("image/png");
-        if (!dataUrl || dataUrl === "data:,") {
-          throw new Error("Failed to encode PNG");
-        }
-        triggerDownload(dataUrl);
-      }
-    } catch (e) {
-      console.error("[save-as-image]", e);
-      toast.error("Couldn't save image — please try again");
-    } finally {
-      setSaving(false);
-    }
-  };
-
   return (
     <>
       <CozyRoom weather={weather ?? "sunny"} />
@@ -234,7 +162,6 @@ function Generator() {
 
         {step === 4 && (
           <PixelNotepad
-            innerRef={menuRef}
             menu={menu}
             mascotId={mascotId}
             mood={mood!}
@@ -293,14 +220,6 @@ function Generator() {
             </div>
           )}
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={saving}
-              className="font-pixel text-base px-5 py-3 rounded-xl bg-accent text-accent-foreground pixel-shadow-sm pixel-border disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {saving ? "saving…" : "⬇ save as image"}
-            </button>
             <button
               type="button"
               onClick={handleStartOver}
@@ -458,4 +377,3 @@ function GeneratingInterlude({ mascotId, mood }: { mascotId: MascotId; mood: Moo
     </div>
   );
 }
-

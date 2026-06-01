@@ -1,23 +1,24 @@
-# Fix "save as image" button
-
-## What's broken
-`handleSave` in `src/routes/generator.tsx` uses `toPng()` from `html-to-image`, wrapped in a try/catch that only logs to the console. Nothing downloads because the capture throws: `html-to-image` cannot serialize the `oklch(...)` colors that Tailwind v4 / `src/styles.css` use throughout the notepad. The error is swallowed, so the button appears dead.
-
-## Fix
-
-1. Replace `html-to-image` with `html2canvas-pro` — a maintained fork that supports `oklch`, `lab`, and CSS variables. This is the smallest change that makes the button actually produce a PNG.
-2. Rewrite `handleSave` to:
-   - render `menuRef.current` with `html2canvas-pro` (`scale: 2`, `backgroundColor: "#FBF4E8"`, `useCORS: true`)
-   - convert the canvas to a Blob via `canvas.toBlob()`
-   - trigger a download of `cozy-menu-{timestamp}.png` via an object URL, then revoke it
-   - on failure, show a `sonner` toast (`toast.error("Couldn't save image, please try again")`) instead of silent `console.error`
-3. Add a brief "saving…" disabled state on the button while the capture runs so the user gets feedback on the click.
-
-No new buttons, no print, no copy — only the existing "save as image" button is touched.
+Remove the save-as-image button and all related logic from the prototype.
 
 ## Files touched
-- `package.json` — remove `html-to-image`, add `html2canvas-pro`
-- `src/routes/generator.tsx` — swap import, rewrite `handleSave`, add saving state on the button
+
+### 1. `src/routes/generator.tsx`
+- Remove `html2canvas-pro` import.
+- Remove `toast` import from `sonner` (only used in `handleSave`).
+- Remove `useRef` from React imports (no longer needed).
+- Remove `saving` state variable and `menuRef` ref.
+- Remove `handleSave` function entirely.
+- Remove the "⬇ save as image" button from the step === 4 actions block.
+- Remove `innerRef={menuRef}` prop from the `<PixelNotepad>` JSX.
+
+### 2. `src/components/PixelNotepad.tsx`
+- Remove `innerRef: React.RefObject<HTMLDivElement | null>` from the `PixelNotepadProps` interface.
+- Remove `innerRef` from the destructured props.
+- Remove `ref={innerRef}` from the root `<div>`.
+
+### 3. `package.json`
+- Remove the `html2canvas-pro` dependency entry.
 
 ## Out of scope
-Menu generation, rate limiting, mascot logic, notepad styling.
+- The `<Toaster />` in `src/routes/__root.tsx` is left in place (harmless and reusable for future toasts).
+- No other UI or feature changes.
