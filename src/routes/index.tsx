@@ -45,10 +45,10 @@ function Landing() {
       <main className="min-h-screen flex flex-col items-center px-5 py-10 sm:py-14 relative z-10">
       <header className="text-center max-w-xl">
         <p className="font-pixel text-sm sm:text-base text-primary mb-3">
-          ⋆ ˚｡⋆୨୧ a cozy little prototype ୨୧⋆ ˚｡⋆
+          ⋆ ˚｡⋆୨୧ a simple prototype ୨୧⋆ ˚｡⋆
         </p>
         <h1 className="font-pixel text-3xl sm:text-5xl leading-tight text-foreground">
-          Your Cozy <br className="sm:hidden" /> Dopamine Menu
+          Your Personal Cozy <br className="sm:hidden" /> Dopamine Menu
         </h1>
         <p className="mt-4 text-base sm:text-lg text-foreground/80">
           Tiny missions for soft days. Pick a little buddy to keep you company.

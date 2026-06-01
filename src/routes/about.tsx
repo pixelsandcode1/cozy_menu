@@ -20,17 +20,17 @@ function About() {
         <h1 className="font-pixel text-3xl mb-4">about this little thing</h1>
         <p className="text-base text-foreground/85 leading-relaxed">
           A self-contained pixel-art prototype that suggests gentle activities based on your
-          mood, available time, and the weather. No accounts, no AI calls, no productivity
-          pressure — just a tiny menu of cozy side missions, picked from a local list.
+          mood, available time, and the weather. No accounts, no API calls, no productivity
+          pressure. This is just a tiny menu of cozy side missions, picked from a curated list.
         </p>
         <p className="mt-4 text-base text-foreground/85 leading-relaxed">
-          Built as a portfolio piece. Everything runs in your browser.
+          I built this as a side quest / fun portfolio piece. Everything runs right in your browser.
         </p>
         <Link
           to="/"
           className="inline-block mt-6 font-pixel text-base px-5 py-3 rounded-xl bg-primary text-primary-foreground pixel-shadow-sm pixel-border"
         >
-          ← back home
+          ← return home
         </Link>
       </div>
     </main>
