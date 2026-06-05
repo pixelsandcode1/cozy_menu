@@ -57,6 +57,41 @@ export const activities: Activity[] = [
   A({ id: "call-loved", name: "Call someone you love", blurb: "Even if it's short.", emoji: "📞", category: "social", maxMinutes: 30, moods: ["sad", "content", "tired"], weathers: "any" }),
   A({ id: "compliment", name: "Send a sincere compliment", blurb: "Make someone glow.", emoji: "💝", category: "social", maxMinutes: 5, moods: ["content", "energized", "sad"], weathers: "any" }),
   A({ id: "coffee-invite", name: "Invite someone for a walk", blurb: "Low-key, low-pressure.", emoji: "☕", category: "social", maxMinutes: 60, moods: ["content", "energized"], weathers: ["sunny", "cloudy"] }),
+
+  // More dopamine
+  A({ id: "candle", name: "Light a candle or incense", blurb: "Tiny ritual, big mood shift.", emoji: "🕯️", category: "dopamine", maxMinutes: 5, moods: ["tired", "anxious", "content"], weathers: "any" }),
+  A({ id: "softest-blanket", name: "Wrap up in your softest blanket", blurb: "Burrito mode: activated.", emoji: "🛌", category: "dopamine", maxMinutes: 5, moods: ["tired", "sad", "anxious"], weathers: "any" }),
+  A({ id: "comfort-clip", name: "Watch a comfort show clip", blurb: "Just one. You know the one.", emoji: "📺", category: "dopamine", maxMinutes: 15, moods: ["tired", "sad"], weathers: "any" }),
+  A({ id: "sun-minute", name: "Step outside for 60 seconds of sun", blurb: "Vitamin D, tiny dose.", emoji: "🌞", category: "dopamine", maxMinutes: 5, moods: ["tired", "content"], weathers: ["sunny", "cloudy", "hot"], outdoor: true }),
+  A({ id: "slow-fruit", name: "Eat a piece of fruit slowly", blurb: "Notice the colors and smell.", emoji: "🍊", category: "dopamine", maxMinutes: 5, moods: ["tired", "content", "anxious"], weathers: "any" }),
+
+  // More creative
+  A({ id: "haiku", name: "Write a haiku about your day", blurb: "Five-seven-five, that's it.", emoji: "🖋️", category: "creative", maxMinutes: 15, moods: ["content", "sad", "anxious"], weathers: "any" }),
+  A({ id: "home-screen", name: "Rearrange your phone home screen", blurb: "Fresh layout, fresh vibes.", emoji: "📱", category: "creative", maxMinutes: 15, moods: ["restless", "content"], weathers: "any" }),
+  A({ id: "window-sketch", name: "Sketch the view from your window", blurb: "Quick lines, no erasing.", emoji: "🖼️", category: "creative", maxMinutes: 30, moods: ["content", "sad"], weathers: "any" }),
+  A({ id: "lyric-rewrite", name: "Try a 1-song lyric rewrite", blurb: "Make it about your cat.", emoji: "🎤", category: "creative", maxMinutes: 15, moods: ["restless", "energized", "content"], weathers: "any" }),
+  A({ id: "journal-decor", name: "Decorate a page in your journal", blurb: "Stickers, washi, doodles.", emoji: "🌸", category: "creative", maxMinutes: 30, moods: ["content", "anxious", "sad"], weathers: "any" }),
+
+  // More low movement
+  A({ id: "mat-pilates", name: "Do a 10-minute mat pilates flow", blurb: "Core wake-up, gently.", emoji: "🧘‍♀️", category: "low-movement", maxMinutes: 30, moods: ["content", "restless", "energized"], weathers: "any" }),
+  A({ id: "mobility", name: "Gentle mobility for hips & shoulders", blurb: "Loosen up the stiff bits.", emoji: "🦴", category: "low-movement", maxMinutes: 15, moods: ["tired", "anxious", "restless", "content"], weathers: "any" }),
+  A({ id: "foam-roll", name: "Foam roll or self-massage", blurb: "Hurts so good.", emoji: "💆", category: "low-movement", maxMinutes: 15, moods: ["tired", "restless", "content"], weathers: "any" }),
+  A({ id: "body-scan", name: "Do a guided body scan meditation", blurb: "Head to toes, slowly.", emoji: "🌙", category: "low-movement", maxMinutes: 15, moods: ["anxious", "tired", "sad"], weathers: "any" }),
+  A({ id: "neck-rolls", name: "Slow neck & shoulder rolls", blurb: "Right at your desk.", emoji: "🪷", category: "low-movement", maxMinutes: 5, moods: ["tired", "anxious", "restless"], weathers: "any" }),
+
+  // More high movement
+  A({ id: "home-yoga", name: "Home yoga session", blurb: "A few sun salutations.", emoji: "🧘", category: "high-movement", maxMinutes: 30, moods: ["content", "restless", "energized", "anxious"], weathers: "any" }),
+  A({ id: "ball-outside", name: "Shoot hoops or kick a ball outside", blurb: "Backyard or driveway.", emoji: "⚽", category: "high-movement", maxMinutes: 30, moods: ["restless", "energized", "content"], weathers: ["sunny", "cloudy"], outdoor: true }),
+  A({ id: "strength-circuit", name: "Quick bodyweight strength circuit", blurb: "Squats, push-ups, planks.", emoji: "💪", category: "high-movement", maxMinutes: 15, moods: ["restless", "energized"], weathers: "any" }),
+  A({ id: "jump-rope", name: "Jump rope for one song", blurb: "Pretend you're a kid again.", emoji: "🪢", category: "high-movement", maxMinutes: 5, moods: ["restless", "energized"], weathers: "any" }),
+  A({ id: "short-jog", name: "Short jog around the block", blurb: "Slow pace counts.", emoji: "🏃", category: "high-movement", maxMinutes: 30, moods: ["restless", "energized"], weathers: ["sunny", "cloudy"], outdoor: true }),
+
+  // More social
+  A({ id: "send-meme", name: "Send a friend a meme", blurb: "The one that made you laugh.", emoji: "😂", category: "social", maxMinutes: 5, moods: ["content", "tired", "sad"], weathers: "any" }),
+  A({ id: "plan-hangout", name: "Plan a tiny hangout for next week", blurb: "Pick a day, send the text.", emoji: "🗓️", category: "social", maxMinutes: 15, moods: ["content", "energized"], weathers: "any" }),
+  A({ id: "thank-you", name: "Write a short thank-you note", blurb: "Someone deserves it.", emoji: "✉️", category: "social", maxMinutes: 15, moods: ["content", "sad"], weathers: "any" }),
+  A({ id: "reply-message", name: "Reply to a message you've put off", blurb: "Just one. You'll feel lighter.", emoji: "💬", category: "social", maxMinutes: 5, moods: ["anxious", "content"], weathers: "any" }),
+  A({ id: "would-you-rather", name: "Ask a friend a 'would you rather'", blurb: "Silly questions, fun replies.", emoji: "🤔", category: "social", maxMinutes: 5, moods: ["content", "restless", "energized"], weathers: "any" }),
 ];
 
 export function pickMenu(

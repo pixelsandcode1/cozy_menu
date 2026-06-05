@@ -12,7 +12,7 @@ export function Mascot({ id, size = 96, animated = true, className = "" }: Masco
   return (
     <img
       src={mascot.src}
-      alt={`${mascot.name} ${mascot.species}`}
+      alt={mascot.name}
       width={size}
       height={size}
       style={{ width: size, height: size }}

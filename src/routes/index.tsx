@@ -75,7 +75,7 @@ function Landing() {
               <Mascot id={m.id} size={112} animated={showActive} />
               <div className="text-center">
                 <div className="font-pixel text-lg text-foreground">
-                  {m.name} <span className="text-foreground/60 text-sm">{m.species}</span>
+                  {m.name}
                 </div>
                 <p className="text-sm text-foreground/70 mt-0.5">{m.blurb}</p>
               </div>
