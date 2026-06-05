@@ -78,8 +78,7 @@
   --plum: oklch(0.28 0.06 305);
 }
 
-/* pixel-art font + readable body font */
-@import url("https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Nunito:wght@500;600;700;800&display=swap");
+/* pixel-art font + readable body font loaded via <link> in __root.tsx */
 
 @layer base {
   * {
