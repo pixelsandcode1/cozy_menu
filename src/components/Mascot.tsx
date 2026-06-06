@@ -5,14 +5,22 @@ interface MascotProps {
   size?: number;
   animated?: boolean;
   className?: string;
+  decorative?: boolean;
 }
 
-export function Mascot({ id, size = 96, animated = true, className = "" }: MascotProps) {
+export function Mascot({
+  id,
+  size = 96,
+  animated = true,
+  className = "",
+  decorative = false,
+}: MascotProps) {
   const mascot = getMascot(id);
   return (
     <img
       src={mascot.src}
-      alt={mascot.name}
+      alt={decorative ? "" : mascot.name}
+      aria-hidden={decorative || undefined}
       width={size}
       height={size}
       style={{ width: size, height: size }}
