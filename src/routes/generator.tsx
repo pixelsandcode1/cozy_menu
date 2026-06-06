@@ -201,7 +201,7 @@ function Generator() {
             <button
               type="button"
               onClick={handleRegenerate}
-              className="font-pixel text-base px-6 py-3 rounded-xl bg-secondary text-secondary-foreground pixel-shadow pixel-border"
+              className="font-pixel text-base px-6 py-3 rounded-xl bg-secondary text-secondary-foreground pixel-shadow pixel-border focus:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
             >
               ↻ try a different menu
             </button>
@@ -215,7 +215,7 @@ function Generator() {
                 let's pause and breathe — fresh menus return in
               </p>
               <p className="font-pixel text-2xl text-primary mt-1">{countdown || "5:00"}</p>
-              <p className="text-xs text-foreground/60 mt-1">
+              <p className="text-xs text-foreground/80 mt-1">
                 these ones are waiting for you ✨
               </p>
             </div>
@@ -225,13 +225,13 @@ function Generator() {
               type="button"
               onClick={handleStartOver}
               disabled={remaining <= 0}
-              className="font-pixel text-base px-5 py-3 rounded-xl bg-card text-foreground pixel-shadow-sm pixel-border disabled:opacity-50 disabled:cursor-not-allowed"
+              className="font-pixel text-base px-5 py-3 rounded-xl bg-card text-foreground pixel-shadow-sm pixel-border disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
             >
               start over
             </button>
           </div>
           {remaining > 0 && (
-            <p className="text-xs text-foreground/55">
+            <p className="text-xs text-foreground/80">
               {remaining} fresh {remaining === 1 ? "menu" : "menus"} left in this little window
             </p>
           )}
