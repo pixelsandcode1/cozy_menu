@@ -241,7 +241,7 @@ function Generator() {
       {/* Mascot corner */}
       {step !== 4 && (
         <div className="pointer-events-none fixed bottom-3 left-3 sm:bottom-6 sm:left-6">
-          <Mascot id={mascotId} size={96} animated />
+          <Mascot id={mascotId} size={96} animated decorative />
         </div>
       )}
     </main>
