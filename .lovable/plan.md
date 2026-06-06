@@ -1,19 +1,20 @@
-Fix CSS @import ordering error in src/styles.css by moving the Google Fonts import out of the stylesheet and into the HTML head via <link> tags.
+## Goal
+Replace the pixel display font (Silkscreen) with the body font (Nunito) everywhere, so all text matches the style of the "Tiny missions for soft days" line.
 
-**Root cause:** `src/styles.css` contains a Google Fonts `@import` in the middle of the file (after `:root` and before `@layer base`). LightningCSS requires all `@import` rules to precede every other rule except `@charset` and `@layer`.
+## Approach
+One small CSS change in `src/styles.css` — repoint the `--font-pixel` token to the same stack as `--font-body`. Every `.font-pixel` class and `font-pixel` utility across the app (landing, generator, notepad, buttons, chips, footer, etc.) will then render in Nunito automatically. No component edits needed.
 
-**Changes:**
-1. **Remove** the following block from `src/styles.css`:
-   ```css
-   /* pixel-art font + readable body font */
-   @import url("https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Nunito:wght@500;600;700;800&display=swap");
-   ```
+### Change
+In `src/styles.css` `@theme inline` block:
+```css
+--font-pixel: "Nunito", ui-sans-serif, system-ui, sans-serif;
+--font-body:  "Nunito", ui-sans-serif, system-ui, sans-serif;
+```
 
-2. **Add** Google Fonts `<link>` tags to the `head` object in `src/routes/__root.tsx`, before the existing `appCss` link:
-   ```tsx
-   { rel: "preconnect", href: "https://fonts.googleapis.com" },
-   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-   { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Nunito:wght@500;600;700;800&display=swap" },
-   ```
+Also drop the `letter-spacing: 0.02em` from the `.font-pixel` rule in `@layer base` so headings/buttons read naturally in Nunito.
 
-No other files touched. Font tokens (`--font-pixel`, `--font-body`) remain in `@theme` and will resolve correctly once the fonts load via `<link>`.
+### Optional cleanup (kept minimal)
+- Leave the Silkscreen `<link>` in `__root.tsx` in place for now (harmless). I can remove it in a follow-up if you'd like to trim the network request.
+
+### Out of scope
+- No component refactors, no class renames, no layout/spacing changes.
