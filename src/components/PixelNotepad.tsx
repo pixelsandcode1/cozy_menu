@@ -55,10 +55,10 @@ export function PixelNotepad({
         </div>
 
         <div className="text-center mb-5">
-          <p className="font-pixel text-xs text-foreground/70 tracking-wider">
+          <h2 className="font-pixel text-xs text-foreground/85 tracking-wider">
             ⋆ today's dopamine menu ⋆
-          </p>
-          <p className="text-sm text-foreground/75 mt-1">
+          </h2>
+          <p className="text-sm text-foreground/85 mt-1">
             {moodLabel} · {timeLabel} · {weatherLabel}
           </p>
         </div>
