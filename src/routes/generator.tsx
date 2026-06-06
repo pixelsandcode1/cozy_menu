@@ -372,7 +372,7 @@ function GeneratingInterlude({ mascotId, mood }: { mascotId: MascotId; mood: Moo
       <p className="font-pixel text-xl sm:text-2xl mt-6 max-w-md">
         Today's cozy side missions can include...
       </p>
-      <p className="text-sm text-foreground/75 mt-2 max-w-md italic">
+      <p className="text-sm text-foreground/85 mt-2 max-w-md italic">
         {getMascotLine(mascotId, mood)}
       </p>
     </div>
