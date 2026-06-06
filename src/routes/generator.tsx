@@ -179,7 +179,7 @@ function Generator() {
             <button
               type="button"
               onClick={() => setStep((s) => (s - 1) as Step)}
-              className="font-pixel text-base px-5 py-3 rounded-xl bg-card text-foreground pixel-shadow-sm pixel-border"
+              className="font-pixel text-base px-5 py-3 rounded-xl bg-card text-foreground pixel-shadow-sm pixel-border focus:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
             >
               ← back
             </button>
@@ -188,7 +188,7 @@ function Generator() {
             type="button"
             onClick={handleNext}
             disabled={!canAdvance}
-            className="font-pixel text-base px-6 py-3 rounded-xl bg-primary text-primary-foreground pixel-shadow pixel-border disabled:opacity-50 disabled:cursor-not-allowed"
+            className="font-pixel text-base px-6 py-3 rounded-xl bg-primary text-primary-foreground pixel-shadow pixel-border disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
           >
             {step === 2 ? "show my menu ✿" : "next →"}
           </button>
