@@ -277,7 +277,7 @@ function QuestionStep(props: {
       <h1 className="font-pixel text-2xl sm:text-3xl mb-2 text-foreground">
         {headings[step]}
       </h1>
-      <p className="text-sm text-foreground/75 mb-7" aria-live="polite">{subline}</p>
+      <p className="text-sm text-foreground/85 mb-7" aria-live="polite">{subline}</p>
 
       <div
         className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto"
