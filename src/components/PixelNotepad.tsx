@@ -55,10 +55,10 @@ export function PixelNotepad({
         </div>
 
         <div className="text-center mb-5">
-          <p className="font-pixel text-xs text-foreground/70 tracking-wider">
+          <h2 className="font-pixel text-xs text-foreground/85 tracking-wider">
             ⋆ today's dopamine menu ⋆
-          </p>
-          <p className="text-sm text-foreground/75 mt-1">
+          </h2>
+          <p className="text-sm text-foreground/85 mt-1">
             {moodLabel} · {timeLabel} · {weatherLabel}
           </p>
         </div>
@@ -99,24 +99,24 @@ export function PixelNotepad({
                   <h3 className="font-pixel text-base sm:text-lg text-foreground">
                     {a.name}
                   </h3>
-                  <span className="text-xs text-foreground/60 whitespace-nowrap">
+                  <span className="text-xs text-foreground/80 whitespace-nowrap">
                     ~{a.maxMinutes >= 60 ? "1hr" : `${a.maxMinutes}m`}
                   </span>
                 </div>
-                <p className="text-sm text-foreground/80 mt-0.5">{a.blurb}</p>
+                <p className="text-sm text-foreground/85 mt-0.5">{a.blurb}</p>
               </div>
             </li>
           ))}
         </ul>
 
-        <p className="text-center text-xs text-foreground/60 mt-6 pr-16 font-pixel">
+        <p className="text-center text-xs text-foreground/80 mt-6 pr-16 font-pixel">
           ✿ picked with care by {mascot.name}
         </p>
       </div>
 
       {/* Mascot peeking from the corner */}
       <div className="absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-4">
-        <Mascot id={mascotId} size={88} animated />
+        <Mascot id={mascotId} size={88} animated decorative />
       </div>
     </div>
   );

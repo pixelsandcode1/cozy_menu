@@ -77,7 +77,7 @@ function Landing() {
                 <div className="font-pixel text-lg text-foreground">
                   {m.name}
                 </div>
-                <p className="text-sm text-foreground/70 mt-0.5">{m.blurb}</p>
+                <p className="text-sm text-foreground/85 mt-0.5">{m.blurb}</p>
               </div>
             </button>
           );
@@ -93,16 +93,16 @@ function Landing() {
         >
           Begin →
         </button>
-        <p className="text-sm text-foreground/60">
+        <p className="text-sm text-foreground/85">
           {hasSelected ? "lovely choice ✿" : "tap a friend to begin"}
         </p>
       </div>
 
-      <footer className="mt-auto pt-12 w-full flex flex-col items-center gap-2 text-xs text-foreground/70">
-        <div className="font-pixel text-sm text-foreground/80 bg-card/80 pixel-border rounded-full px-4 py-2 pixel-shadow-sm">
+      <footer className="mt-auto pt-12 w-full flex flex-col items-center gap-2 text-xs text-foreground/85">
+        <div className="font-pixel text-sm text-foreground/85 bg-card/80 pixel-border rounded-full px-4 py-2 pixel-shadow-sm">
           ✿ designed &amp; built by Rachael using Lovable &lt;3
         </div>
-        <Link to="/about" className="underline-offset-4 hover:underline text-foreground/55">
+        <Link to="/about" className="underline-offset-4 hover:underline text-foreground/85 rounded focus:outline-none focus-visible:ring-4 focus-visible:ring-ring/50">
           about this prototype
         </Link>
       </footer>
