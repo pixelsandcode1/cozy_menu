@@ -36,7 +36,7 @@
   --color-peach: var(--peach);
   --color-plum: var(--plum);
 
-  --font-pixel: "Silkscreen", "VT323", ui-monospace, monospace;
+  --font-pixel: "Nunito", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Nunito", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -91,7 +91,6 @@
   }
   .font-pixel {
     font-family: var(--font-pixel);
-    letter-spacing: 0.02em;
   }
   .pixelated {
     image-rendering: pixelated;
