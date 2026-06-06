@@ -127,7 +127,7 @@ function Generator() {
       <nav className="w-full max-w-2xl flex items-center justify-between mb-6">
         <Link
           to="/"
-          className="font-pixel text-sm text-foreground/70 hover:text-foreground underline-offset-4 hover:underline"
+          className="font-pixel text-sm text-foreground/85 hover:text-foreground underline-offset-4 hover:underline rounded focus:outline-none focus-visible:ring-4 focus-visible:ring-ring/50"
         >
           ← home
         </Link>
@@ -135,8 +135,9 @@ function Generator() {
           {[0, 1, 2].map((i) => (
             <span
               key={i}
+              aria-hidden="true"
               className={`w-2.5 h-2.5 rounded-full ${
-                step >= i ? "bg-primary" : "bg-foreground/15"
+                step >= i ? "bg-primary" : "bg-foreground/30"
               }`}
             />
           ))}
