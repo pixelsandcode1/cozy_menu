@@ -354,7 +354,7 @@ function GeneratingInterlude({ mascotId, mood }: { mascotId: MascotId; mood: Moo
   return (
     <div className="flex flex-col items-center text-center mt-6 animate-pop-in" aria-live="polite">
       <div className="relative">
-        <Mascot id={mascotId} size={140} animated />
+        <Mascot id={mascotId} size={140} animated decorative />
         <span className="absolute -top-1 -right-2 text-2xl animate-sparkle">✨</span>
         <span
           className="absolute -bottom-1 -left-3 text-xl animate-sparkle"
