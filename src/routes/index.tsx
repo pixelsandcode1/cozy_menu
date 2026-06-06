@@ -93,7 +93,7 @@ function Landing() {
         >
           Begin →
         </button>
-        <p className="text-sm text-foreground/60">
+        <p className="text-sm text-foreground/85">
           {hasSelected ? "lovely choice ✿" : "tap a friend to begin"}
         </p>
       </div>
