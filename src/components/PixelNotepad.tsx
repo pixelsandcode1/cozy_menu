@@ -116,7 +116,7 @@ export function PixelNotepad({
 
       {/* Mascot peeking from the corner */}
       <div className="absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-4">
-        <Mascot id={mascotId} size={88} animated />
+        <Mascot id={mascotId} size={88} animated decorative />
       </div>
     </div>
   );
