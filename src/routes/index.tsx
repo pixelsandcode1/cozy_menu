@@ -77,7 +77,7 @@ function Landing() {
                 <div className="font-pixel text-lg text-foreground">
                   {m.name}
                 </div>
-                <p className="text-sm text-foreground/70 mt-0.5">{m.blurb}</p>
+                <p className="text-sm text-foreground/85 mt-0.5">{m.blurb}</p>
               </div>
             </button>
           );
