@@ -48,7 +48,7 @@ function Landing() {
           ⋆ ˚｡⋆୨୧ a simple prototype ୨୧⋆ ˚｡⋆
         </p>
         <h1 className="font-pixel text-3xl @min-[640px]:text-5xl leading-tight text-foreground">
-          Your Personal Cozy <br className="@min-[640px]:hidden" /> Dopamine Menu
+          Your Personal Dopamine Menu
         </h1>
         <p className="mt-4 text-base @min-[640px]:text-lg text-foreground/80">
           Tiny missions for soft days. Pick a little buddy to keep you company.
