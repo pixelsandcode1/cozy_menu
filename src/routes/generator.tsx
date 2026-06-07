@@ -122,7 +122,7 @@ function Generator() {
   return (
     <>
       <CozyRoom weather={weather ?? "sunny"} />
-      <main className="min-h-screen flex flex-col items-center px-5 py-8 sm:py-12 relative z-10">
+      <main className="min-h-full flex flex-col items-center px-5 py-8 @min-[640px]:py-12 relative z-10">
       {/* Top bar */}
       <nav className="w-full max-w-2xl flex items-center justify-between mb-6">
         <Link
@@ -240,7 +240,7 @@ function Generator() {
 
       {/* Mascot corner */}
       {step !== 4 && (
-        <div className="pointer-events-none fixed bottom-3 left-3 sm:bottom-6 sm:left-6">
+        <div className="pointer-events-none fixed bottom-3 left-3 @min-[640px]:bottom-6 @min-[640px]:left-6">
           <Mascot id={mascotId} size={96} animated decorative />
         </div>
       )}
@@ -274,13 +274,13 @@ function QuestionStep(props: {
 
   return (
     <div className="w-full text-center animate-pop-in" key={step}>
-      <h1 className="font-pixel text-2xl sm:text-3xl mb-2 text-foreground">
+      <h1 className="font-pixel text-2xl @min-[640px]:text-3xl mb-2 text-foreground">
         {headings[step]}
       </h1>
       <p className="text-sm text-foreground/85 mb-7" aria-live="polite">{subline}</p>
 
       <div
-        className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-xl mx-auto"
+        className="grid grid-cols-2 @min-[640px]:grid-cols-3 gap-3 @min-[640px]:gap-4 max-w-xl mx-auto"
         role="radiogroup"
         aria-label={headings[step]}
       >
@@ -345,7 +345,7 @@ function Chip({
       <span className="text-2xl" aria-hidden>
         {icon}
       </span>
-      <span className="font-pixel text-sm sm:text-base">{label}</span>
+      <span className="font-pixel text-sm @min-[640px]:text-base">{label}</span>
     </button>
   );
 }
@@ -369,7 +369,7 @@ function GeneratingInterlude({ mascotId, mood }: { mascotId: MascotId; mood: Moo
           ⋆
         </span>
       </div>
-      <p className="font-pixel text-xl sm:text-2xl mt-6 max-w-md">
+      <p className="font-pixel text-xl @min-[640px]:text-2xl mt-6 max-w-md">
         Today's cozy side missions can include...
       </p>
       <p className="text-sm text-foreground/85 mt-2 max-w-md italic">
