@@ -74,8 +74,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "twitter:card", content: "summary_large_image" },
+      { title: "Cozy Personal Dopamine Menu" },
+      { property: "og:title", content: "Cozy Personal Dopamine Menu" },
+      { name: "twitter:title", content: "Cozy Personal Dopamine Menu" },
+      { name: "description", content: "A curated personal dopamine menu generator" },
+      { property: "og:description", content: "A curated personal dopamine menu generator" },
+      { name: "twitter:description", content: "A curated personal dopamine menu generator" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3e34bc79-464f-4a12-a985-d7c0707007ba/id-preview-cc777889--607bd1d6-96ec-4eef-83d3-ed40eb425c05.lovable.app-1780711994761.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3e34bc79-464f-4a12-a985-d7c0707007ba/id-preview-cc777889--607bd1d6-96ec-4eef-83d3-ed40eb425c05.lovable.app-1780711994761.png" },
+      { property: "og:type", content: "website" },
     ],
     links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Nunito:wght@500;600;700;800&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,
@@ -90,11 +105,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full w-full">
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="h-full w-full">
         {children}
         <Scripts />
       </body>
@@ -107,7 +122,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <div className="@container w-full min-h-full">
+        <Outlet />
+      </div>
       <Toaster />
     </QueryClientProvider>
   );

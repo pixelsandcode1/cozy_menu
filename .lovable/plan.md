@@ -1,48 +1,59 @@
 
-## Goal
-Expand `src/data/activities.ts` with 25 new activities — 5 in each of the 5 categories — so generated menus have more variety. Include the user's requested examples (mat pilates, home yoga, mobility work, outdoor sports) in the appropriate categories.
+## Recommendation: migrate in place, don't fork
 
-## File to edit
-`src/data/activities.ts` — append new entries to the `activities` array. No other files change; `pickMenu` already handles any new entries via category/mood/weather/time filtering.
+The changes are mechanical (swap viewport units/breakpoints for container-relative ones) and don't alter visual design, copy, or logic. A fork would double maintenance for every future tweak (mascots, activities, copy, a11y) with no upside — the container-query version renders identically in a real browser and on iPhone because the root container then equals the viewport. One codebase, embeddable anywhere.
 
-## New activities
+If you'd rather keep the current build untouched as a "known good" snapshot, the cleaner option is to publish the current version, then do the migration on top — not to maintain two source trees.
 
-**Dopamine (low-effort boosts)** — 5
-- Light a candle or incense (5m, tired/anxious/content, any)
-- Wrap up in your softest blanket (5m, tired/sad/anxious, any)
-- Watch a comfort show clip (15m, tired/sad, any)
-- Step outside for 60 seconds of sun (5m, tired/content, sunny/cloudy/hot, outdoor)
-- Eat a piece of fruit slowly (5m, tired/content/anxious, any)
+---
 
-**Creative** — 5
-- Write a haiku about your day (15m, content/sad/anxious, any)
-- Rearrange your phone home screen (15m, restless/content, any)
-- Sketch the view from your window (30m, content/sad, any)
-- Try a 1-song lyric rewrite (15m, restless/energized/content, any)
-- Decorate a page in your journal (30m, content/anxious/sad, any)
+## Plan: make the app responsive to its parent frame
 
-**Low movement** — 5
-- Do a 10-minute mat pilates flow (30m, content/restless/energized, any) ← requested
-- Gentle mobility work for hips & shoulders (15m, tired/anxious/restless/content, any) ← requested
-- Foam roll or self-massage (15m, tired/restless/content, any)
-- Do a guided body scan meditation (15m, anxious/tired/sad, any)
-- Slow neck & shoulder rolls at your desk (5m, tired/anxious/restless, any)
+### 1. Establish a container at the root
 
-**High movement** — 5
-- Home yoga session (sun salutations) (30m, content/restless/energized/anxious, any) ← requested
-- Shoot hoops or kick a ball outside (30m, restless/energized/content, sunny/cloudy, outdoor) ← outdoor sport
-- Quick bodyweight strength circuit (15m, restless/energized, any)
-- Jump rope for one song (5m, restless/energized, any)
-- Go for a short jog around the block (30m, restless/energized, sunny/cloudy, outdoor) ← outdoor sport
+In `src/routes/__root.tsx`, wrap `<Outlet />` in a single full-size container element that declares itself a size container:
 
-**Social** — 5
-- Send a friend a meme that made you laugh (5m, content/tired/sad, any)
-- Plan a tiny hangout for next week (15m, content/energized, any)
-- Write a short thank-you note (15m, content/sad, any)
-- Reply to one message you've been putting off (5m, anxious/content, any)
-- Ask a friend a "would you rather" question (5m, content/restless/energized, any)
+- `<div className="@container w-full min-h-full">` around `<Outlet />` and `<Toaster />`.
+- On `<body>` (or the wrapper), use `h-full w-full` and let html/body inherit `100%` so the app fills the parent frame instead of `100vh`.
 
-## Notes
-- All entries use existing `Activity` shape, valid `MoodId` / `WeatherId` / `Category` values, and `maxMinutes ∈ {5,15,30,60}` so `pickMenu`'s time filter behaves correctly.
-- Outdoor activities mark `outdoor: true` and restrict `weathers` accordingly (matching the existing pattern).
-- No changes to `pickMenu`, types, or UI.
+This makes every descendant able to use `@sm:`, `@md:`, `@lg:` Tailwind v4 container variants that respond to the wrapper's width, not the browser viewport.
+
+### 2. Replace viewport breakpoints with container breakpoints
+
+Sweep these files and rename responsive prefixes:
+
+- `src/routes/index.tsx` — `sm:` → `@sm:`, `md:` → `@md:` on header text sizes, the mascot grid (`grid-cols-2 sm:grid-cols-4`), padding (`py-10 sm:py-14`), gap.
+- `src/routes/generator.tsx` — same sweep.
+- `src/routes/about.tsx` — same sweep.
+- `src/components/PixelNotepad.tsx` — `px-5 sm:px-7`, `text-base sm:text-lg`, `-bottom-4 -right-2 sm:-bottom-6 sm:-right-4`.
+- `src/components/Mascot.tsx` and `src/components/CozyRoom.tsx` — audit for any `sm:`/`md:` usage.
+
+Tailwind v4 ships container variants out of the box once an ancestor has `@container`. No config change needed.
+
+### 3. Replace viewport units with container/percent units
+
+- `min-h-screen` → `min-h-full` (or `min-h-[100cqh]` where we want exactly the container height).
+- Any `100vh` / `100vw` in `src/styles.css` (rain-fall, snow-fall keyframes use `120vh`) → `120cqh` so weather effects scale to the frame, not the browser window.
+- `max-w-xl`, `max-w-3xl` stay — they're already container-friendly.
+
+### 4. Replace `useIsMobile` with a container-aware hook
+
+`src/hooks/use-mobile.tsx` currently reads `window.innerWidth`. Replace with a `useContainerIsMobile(ref)` hook that uses `ResizeObserver` on a passed ref (or on the nearest `@container` ancestor via a context). Update the (few) call sites to pass the ref, or convert those call sites to pure CSS container queries and delete the JS branching entirely where possible.
+
+### 5. Fixed-pixel mascot/notepad sizes
+
+- `Mascot size={112}` on landing and `size={88}` on the notepad: keep defaults but allow a `className` override and use container variants to shrink in narrow frames (e.g. `@max-sm:scale-75`). No prop-shape change required.
+
+### 6. Verify
+
+- Local browser at full width — should look identical to today.
+- Resize browser narrow — should behave like the current mobile layout.
+- Drop into a Framer tablet frame (~768px) and phone frame (~390px) — layout should now match the iPhone rendering instead of distorting.
+- iPhone Safari — unchanged.
+
+### Technical notes
+
+- Tailwind v4 container queries: `@container` on the ancestor, then `@sm:`, `@md:`, `@lg:`, `@xl:` on descendants. Custom sizes via `@min-[640px]:` or by defining `--container-*` tokens in `@theme`.
+- `cqh`/`cqw`/`cqi` units resolve against the nearest size container, falling back to viewport if none — safe to use everywhere once the root container exists.
+- No route, data, or component-API changes. Pure styling + one hook rewrite.
+- Estimated scope: ~6 files edited, no new dependencies, no schema changes.

@@ -41,7 +41,7 @@ export function PixelNotepad({
       className="relative w-full max-w-xl mt-2 animate-pop-in notepad-tilt"
     >
       {/* Notepad paper */}
-      <div className="relative bg-[oklch(0.985_0.015_85)] pixel-border pixel-shadow rounded-[6px] pt-10 pb-8 px-5 sm:px-7 notepad-paper">
+      <div className="relative bg-[oklch(0.985_0.015_85)] pixel-border pixel-shadow rounded-[6px] pt-10 pb-8 px-5 @min-[640px]:px-7 notepad-paper">
         {/* Top binding */}
         <div className="absolute left-0 right-0 top-0 h-8 bg-[oklch(0.82_0.08_15)] rounded-t-[6px] border-b-[3px] border-[oklch(0.28_0.06_305/30%)]" aria-hidden="true">
           <div className="flex justify-around items-center h-full px-4">
@@ -55,10 +55,10 @@ export function PixelNotepad({
         </div>
 
         <div className="text-center mb-5">
-          <p className="font-pixel text-xs text-foreground/70 tracking-wider">
+          <h2 className="font-pixel text-xs text-foreground/85 tracking-wider">
             ⋆ today's dopamine menu ⋆
-          </p>
-          <p className="text-sm text-foreground/75 mt-1">
+          </h2>
+          <p className="text-sm text-foreground/85 mt-1">
             {moodLabel} · {timeLabel} · {weatherLabel}
           </p>
         </div>
@@ -96,27 +96,27 @@ export function PixelNotepad({
               </span>
               <div className="flex-1 min-w-0">
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="font-pixel text-base sm:text-lg text-foreground">
+                  <h3 className="font-pixel text-base @min-[640px]:text-lg text-foreground">
                     {a.name}
                   </h3>
-                  <span className="text-xs text-foreground/60 whitespace-nowrap">
+                  <span className="text-xs text-foreground/80 whitespace-nowrap">
                     ~{a.maxMinutes >= 60 ? "1hr" : `${a.maxMinutes}m`}
                   </span>
                 </div>
-                <p className="text-sm text-foreground/80 mt-0.5">{a.blurb}</p>
+                <p className="text-sm text-foreground/85 mt-0.5">{a.blurb}</p>
               </div>
             </li>
           ))}
         </ul>
 
-        <p className="text-center text-xs text-foreground/60 mt-6 pr-16 font-pixel">
+        <p className="text-center text-xs text-foreground/80 mt-6 pr-16 font-pixel">
           ✿ picked with care by {mascot.name}
         </p>
       </div>
 
       {/* Mascot peeking from the corner */}
-      <div className="absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-4">
-        <Mascot id={mascotId} size={88} animated />
+      <div className="absolute -bottom-4 -right-2 @min-[640px]:-bottom-6 @min-[640px]:-right-4">
+        <Mascot id={mascotId} size={88} animated decorative />
       </div>
     </div>
   );

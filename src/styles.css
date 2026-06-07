@@ -36,7 +36,7 @@
   --color-peach: var(--peach);
   --color-plum: var(--plum);
 
-  --font-pixel: "Silkscreen", "VT323", ui-monospace, monospace;
+  --font-pixel: "Nunito", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Nunito", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -78,21 +78,21 @@
   --plum: oklch(0.28 0.06 305);
 }
 
-/* pixel-art font + readable body font */
-@import url("https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Nunito:wght@500;600;700;800&display=swap");
+/* pixel-art font + readable body font loaded via <link> in __root.tsx */
 
 @layer base {
   * {
     border-color: var(--color-border);
   }
   html, body {
+    height: 100%;
+    width: 100%;
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-body);
   }
   .font-pixel {
     font-family: var(--font-pixel);
-    letter-spacing: 0.02em;
   }
   .pixelated {
     image-rendering: pixelated;
@@ -151,12 +151,12 @@
 }
 @keyframes rain-fall {
   0% { transform: translateY(0); opacity: 0.9; }
-  100% { transform: translateY(120vh); opacity: 0.6; }
+  100% { transform: translateY(120cqh); opacity: 0.6; }
 }
 @keyframes snow-fall {
   0% { transform: translateY(0) translateX(0); opacity: 0.9; }
-  50% { transform: translateY(60vh) translateX(8px); }
-  100% { transform: translateY(120vh) translateX(-4px); opacity: 0.7; }
+  50% { transform: translateY(60cqh) translateX(8px); }
+  100% { transform: translateY(120cqh) translateX(-4px); opacity: 0.7; }
 }
 @keyframes heat-shimmer {
   0%, 100% { opacity: 0.15; transform: translateY(0); }

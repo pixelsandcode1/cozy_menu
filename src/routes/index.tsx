@@ -42,22 +42,27 @@ function Landing() {
   return (
     <>
       <CozyRoom weather="sunny" />
-      <main className="min-h-screen flex flex-col items-center px-5 py-10 sm:py-14 relative z-10">
+      <main className="min-h-full flex flex-col items-center px-5 py-10 @min-[640px]:py-14 relative z-10">
       <header className="text-center max-w-xl">
-        <p className="font-pixel text-sm sm:text-base text-primary mb-3">
+        <p className="font-pixel text-sm @min-[640px]:text-base text-primary mb-3">
           ⋆ ˚｡⋆୨୧ a simple prototype ୨୧⋆ ˚｡⋆
         </p>
+<<<<<<< HEAD
         <h1 className="font-pixel text-3xl sm:text-5xl leading-tight text-foreground">
           Your Personal <br className="sm:hidden" /> Dopamine Menu
+=======
+        <h1 className="font-pixel text-3xl @min-[640px]:text-5xl leading-tight text-foreground">
+          Your Personal Cozy <br className="@min-[640px]:hidden" /> Dopamine Menu
+>>>>>>> de2463a888a049b19c697cf2c4176f81fcee47d1
         </h1>
-        <p className="mt-4 text-base sm:text-lg text-foreground/80">
+        <p className="mt-4 text-base @min-[640px]:text-lg text-foreground/80">
           Tiny missions for soft days. Pick a little buddy to keep you company.
         </p>
       </header>
 
       <section
         aria-label="Choose your mascot"
-        className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 w-full max-w-3xl"
+        className="mt-10 grid grid-cols-2 @min-[640px]:grid-cols-4 gap-4 @min-[640px]:gap-6 w-full max-w-3xl"
       >
         {mascots.map((m) => {
           const active = picked === m.id;
@@ -77,7 +82,7 @@ function Landing() {
                 <div className="font-pixel text-lg text-foreground">
                   {m.name}
                 </div>
-                <p className="text-sm text-foreground/70 mt-0.5">{m.blurb}</p>
+                <p className="text-sm text-foreground/85 mt-0.5">{m.blurb}</p>
               </div>
             </button>
           );
@@ -93,16 +98,16 @@ function Landing() {
         >
           Begin →
         </button>
-        <p className="text-sm text-foreground/60">
+        <p className="text-sm text-foreground/85">
           {hasSelected ? "lovely choice ✿" : "tap a friend to begin"}
         </p>
       </div>
 
-      <footer className="mt-auto pt-12 w-full flex flex-col items-center gap-2 text-xs text-foreground/70">
-        <div className="font-pixel text-sm text-foreground/80 bg-card/80 pixel-border rounded-full px-4 py-2 pixel-shadow-sm">
+      <footer className="mt-auto pt-12 w-full flex flex-col items-center gap-2 text-xs text-foreground/85">
+        <div className="font-pixel text-sm text-foreground/85 bg-card/80 pixel-border rounded-full px-4 py-2 pixel-shadow-sm">
           ✿ designed &amp; built by Rachael using Lovable &lt;3
         </div>
-        <Link to="/about" className="underline-offset-4 hover:underline text-foreground/55">
+        <Link to="/about" className="underline-offset-4 hover:underline text-foreground/85 rounded focus:outline-none focus-visible:ring-4 focus-visible:ring-ring/50">
           about this prototype
         </Link>
       </footer>
