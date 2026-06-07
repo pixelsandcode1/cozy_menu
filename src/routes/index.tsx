@@ -47,13 +47,8 @@ function Landing() {
         <p className="font-pixel text-sm @min-[640px]:text-base text-primary mb-3">
           ⋆ ˚｡⋆୨୧ a simple prototype ୨୧⋆ ˚｡⋆
         </p>
-<<<<<<< HEAD
-        <h1 className="font-pixel text-3xl sm:text-5xl leading-tight text-foreground">
-          Your Personal <br className="sm:hidden" /> Dopamine Menu
-=======
         <h1 className="font-pixel text-3xl @min-[640px]:text-5xl leading-tight text-foreground">
           Your Personal Cozy <br className="@min-[640px]:hidden" /> Dopamine Menu
->>>>>>> de2463a888a049b19c697cf2c4176f81fcee47d1
         </h1>
         <p className="mt-4 text-base @min-[640px]:text-lg text-foreground/80">
           Tiny missions for soft days. Pick a little buddy to keep you company.
