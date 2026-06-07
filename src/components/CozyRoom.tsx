@@ -26,12 +26,12 @@ export function CozyRoom({ weather }: CozyRoomProps) {
         }}
       />
       {/* Baseboard + floor */}
-      <div className="absolute left-0 right-0 bottom-0 h-[28vh] bg-[oklch(0.88_0.05_60)]" />
-      <div className="absolute left-0 right-0 bottom-[28vh] h-[10px] bg-[oklch(0.78_0.06_50)]" />
+      <div className="absolute left-0 right-0 bottom-0 h-[28cqh] bg-[oklch(0.88_0.05_60)]" />
+      <div className="absolute left-0 right-0 bottom-[28cqh] h-[10px] bg-[oklch(0.78_0.06_50)]" />
 
       {/* Rug */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 bottom-[3vh] w-[min(70vw,700px)] h-[14vh] rounded-[24px] opacity-90"
+        className="absolute left-1/2 -translate-x-1/2 bottom-[3cqh] w-[min(70cqw,700px)] h-[14cqh] rounded-[24px] opacity-90"
         style={{
           background:
             "repeating-linear-gradient(90deg, oklch(0.82 0.06 145) 0 24px, oklch(0.86 0.06 230) 24px 48px, oklch(0.91 0.06 50) 48px 72px, oklch(0.64 0.11 300 / 0.65) 72px 96px)",
@@ -41,8 +41,8 @@ export function CozyRoom({ weather }: CozyRoomProps) {
       />
       {/* Window */}
       <div
-        className="absolute left-[6vw] top-[8vh] w-[clamp(180px,28vw,320px)] aspect-[5/8]"
-        style={{ maxHeight: "calc(100vh - 8vh - 28vh - 26px)" }}
+        className="absolute left-[6cqw] top-[8cqh] w-[clamp(180px,28cqw,320px)] aspect-[5/8]"
+        style={{ maxHeight: "calc(100cqh - 8cqh - 28cqh - 26px)" }}
       >
         <div
           className="absolute inset-0 rounded-[8px] overflow-hidden"
@@ -62,7 +62,7 @@ export function CozyRoom({ weather }: CozyRoomProps) {
       </div>
 
       {/* Potted plant (bottom right) */}
-      <div className="absolute right-[5vw] bottom-[16vh] w-[130px] h-[180px]">
+      <div className="absolute right-[5cqw] bottom-[16cqh] w-[130px] h-[180px]">
         {/* Pot body */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[100px] h-[64px] bg-[oklch(0.66_0.1_40)] rounded-b-[6px] border-[3px] border-[oklch(0.28_0.06_305/30%)]" />
         {/* Pot rim */}
@@ -81,7 +81,7 @@ export function CozyRoom({ weather }: CozyRoomProps) {
       </div>
 
       {/* Wall sticker (heart) */}
-      <div className="absolute right-[14vw] top-[14vh] font-pixel text-2xl text-[oklch(0.64_0.11_300)] opacity-70 rotate-12 select-none">
+      <div className="absolute right-[14cqw] top-[14cqh] font-pixel text-2xl text-[oklch(0.64_0.11_300)] opacity-70 rotate-12 select-none">
         ♥
       </div>
     </div>
