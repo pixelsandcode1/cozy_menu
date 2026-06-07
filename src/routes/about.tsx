@@ -20,7 +20,7 @@ function About() {
         <h1 className="font-pixel text-3xl mb-4">about this little thing</h1>
         <p className="text-base text-foreground/85 leading-relaxed">
           A self-contained pixel-art prototype that suggests gentle activities based on your
-          mood, available time, and the weather. No accounts, no API calls, no productivity
+          mood, available time, and the weather. No accounts, API calls, or productivity
           pressure. This is just a tiny menu of cozy side missions, picked from a curated list.
         </p>
         <p className="mt-4 text-base text-foreground/85 leading-relaxed">
